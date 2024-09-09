@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"controlnode.obj" 
+TO "controlnode" 
+RAMSIZE(256) 

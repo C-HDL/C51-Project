@@ -1,0 +1,765 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/08/2024  00:02:56  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEILC51\C51\BIN\BL51.EXE .\Obj\main.obj, .\Obj\smg.obj, .\Obj\ds18b20.obj, .\Obj\public.obj, .\Obj\uart.obj, .\Obj\ti
+>> mer.obj, .\Obj\wifi_control.obj TO .\Obj\template PRINT (.\Obj\template.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  .\Obj\main.obj (MAIN)
+  .\Obj\smg.obj (SMG)
+  .\Obj\ds18b20.obj (DS18B20)
+  .\Obj\public.obj (PUBLIC)
+  .\Obj\uart.obj (UART)
+  .\Obj\timer.obj (TIMER)
+  .\Obj\wifi_control.obj (WIFI_CONTROL)
+  E:\KEILC51\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  E:\KEILC51\C51\LIB\C51FPS.LIB (?C?FCAST)
+  E:\KEILC51\C51\LIB\C51FPS.LIB (?C?CASTF)
+  E:\KEILC51\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  E:\KEILC51\C51\LIB\C51S.LIB (?C_STARTUP)
+  E:\KEILC51\C51\LIB\C51S.LIB (?C?CLDPTR)
+  E:\KEILC51\C51\LIB\C51S.LIB (?C?CLDOPTR)
+  E:\KEILC51\C51\LIB\C51S.LIB (?C?UIDIV)
+  E:\KEILC51\C51\LIB\C51S.LIB (?C?SIDIV)
+  E:\KEILC51\C51\LIB\C51S.LIB (?C?LNEG)
+  E:\KEILC51\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Obj\template (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     001AH     UNIT         _DATA_GROUP_
+            DATA    0022H     0011H     UNIT         ?DT?SMG
+            DATA    0033H     000CH     UNIT         ?DT?UART
+            DATA    003FH     0003H     UNIT         ?DT?_UART_SENDSTRING?UART
+            DATA    0042H     0003H     UNIT         ?DT?WIFI_CONTROL
+            IDATA   0045H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0008H     UNIT         ?PR?MAIN?MAIN
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0012H     UNIT         ?PR?DS18B20_RESET?DS18B20
+                    0020H     0003H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     02A4H     UNIT         ?C?LIB_CODE
+            CODE    02CAH     0145H     UNIT         ?PR?WIFI_CONTROL?WIFI_CONTROL
+            CODE    040FH     0092H     UNIT         ?PR?_SMG_DISPLAY?SMG
+            CODE    04A1H     008CH     UNIT         ?C_C51STARTUP
+            CODE    052DH     007BH     UNIT         ?PR?DS18B20_READ_TEMPERTURE?DS18B20
+            CODE    05A8H     0077H     UNIT         ?CO?WIFI_CONTROL
+            CODE    061FH     0060H     UNIT         ?PR?UART_IRQN?WIFI_CONTROL
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 2
+
+
+            CODE    067FH     0048H     UNIT         ?PR?_ESP8266_SENDCMD?WIFI_CONTROL
+            CODE    06C7H     0047H     UNIT         ?PR?DS18B20_CHECK?DS18B20
+            CODE    070EH     003FH     UNIT         ?PR?_DS18B20_WRITE_BYTE?DS18B20
+            CODE    074DH     0037H     UNIT         ?PR?_ESP8266_SENDDATA?WIFI_CONTROL
+            CODE    0784H     002DH     UNIT         ?PR?ESP8266_MODEINIT?WIFI_CONTROL
+            CODE    07B1H     002AH     UNIT         ?PR?_UART_SENDSTRING?UART
+            CODE    07DBH     002AH     UNIT         ?PR?TIME0?WIFI_CONTROL
+            CODE    0805H     0026H     UNIT         ?PR?DS18B20_READ_BYTE?DS18B20
+            CODE    082BH     0020H     UNIT         ?PR?DS18B20_READ_BIT?DS18B20
+            CODE    084BH     001EH     UNIT         ?PR?_DELAY_MS?PUBLIC
+            CODE    0869H     001BH     UNIT         ?C_INITSEG
+            CODE    0884H     0016H     UNIT         ?PR?UART_INIT?UART
+            CODE    089AH     0010H     UNIT         ?PR?DS18B20_START?DS18B20
+            CODE    08AAH     0010H     UNIT         ?PR?TIME0_INIT?TIMER
+            CODE    08BAH     000FH     UNIT         ?PR?WIFI_CONTROL_INIT?WIFI_CONTROL
+            CODE    08C9H     000EH     UNIT         ?PR?_UART_SENDDATA?UART
+            CODE    08D7H     000BH     UNIT         ?PR?_DELAY_10US?PUBLIC
+            CODE    08E2H     0007H     UNIT         ?PR?DS18B20_INIT?DS18B20
+
+
+
+OVERLAY MAP OF MODULE:   .\Obj\template (MAIN)
+
+
+SEGMENT                                       DATA_GROUP 
+  +--> CALLED SEGMENT                       START    LENGTH
+-----------------------------------------------------------
+?C_C51STARTUP                               -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                               -----    -----
+  +--> ?PR?WIFI_CONTROL_INIT?WIFI_CONTROL
+  +--> ?PR?WIFI_CONTROL?WIFI_CONTROL
+
+?PR?WIFI_CONTROL_INIT?WIFI_CONTROL          -----    -----
+  +--> ?PR?UART_INIT?UART
+  +--> ?PR?TIME0_INIT?TIMER
+  +--> ?PR?DS18B20_INIT?DS18B20
+  +--> ?PR?ESP8266_MODEINIT?WIFI_CONTROL
+
+?PR?DS18B20_INIT?DS18B20                    -----    -----
+  +--> ?PR?DS18B20_RESET?DS18B20
+  +--> ?PR?DS18B20_CHECK?DS18B20
+
+?PR?DS18B20_RESET?DS18B20                   -----    -----
+  +--> ?PR?_DELAY_10US?PUBLIC
+
+?PR?DS18B20_CHECK?DS18B20                   001FH    0001H
+  +--> ?PR?_DELAY_10US?PUBLIC
+
+?PR?ESP8266_MODEINIT?WIFI_CONTROL           -----    -----
+  +--> ?CO?WIFI_CONTROL
+  +--> ?PR?_ESP8266_SENDCMD?WIFI_CONTROL
+
+?PR?_ESP8266_SENDCMD?WIFI_CONTROL           001BH    0003H
+  +--> ?PR?_UART_SENDDATA?UART
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 3
+
+
+  +--> ?PR?_DELAY_10US?PUBLIC
+  +--> ?PR?_DELAY_MS?PUBLIC
+
+?PR?WIFI_CONTROL?WIFI_CONTROL               0008H    0010H
+  +--> ?PR?DS18B20_READ_TEMPERTURE?DS18B20
+  +--> ?PR?_SMG_DISPLAY?SMG
+  +--> ?PR?_ESP8266_SENDDATA?WIFI_CONTROL
+
+?PR?DS18B20_READ_TEMPERTURE?DS18B20         0018H    0007H
+  +--> ?PR?DS18B20_START?DS18B20
+  +--> ?PR?DS18B20_RESET?DS18B20
+  +--> ?PR?DS18B20_CHECK?DS18B20
+  +--> ?PR?_DS18B20_WRITE_BYTE?DS18B20
+  +--> ?PR?DS18B20_READ_BYTE?DS18B20
+
+?PR?DS18B20_START?DS18B20                   -----    -----
+  +--> ?PR?DS18B20_RESET?DS18B20
+  +--> ?PR?DS18B20_CHECK?DS18B20
+  +--> ?PR?_DS18B20_WRITE_BYTE?DS18B20
+
+?PR?_DS18B20_WRITE_BYTE?DS18B20             001FH    0003H
+  +--> ?PR?_DELAY_10US?PUBLIC
+
+?PR?DS18B20_READ_BYTE?DS18B20               001FH    0002H
+  +--> ?PR?DS18B20_READ_BIT?DS18B20
+
+?PR?DS18B20_READ_BIT?DS18B20                0021H    0001H
+  +--> ?PR?_DELAY_10US?PUBLIC
+
+?PR?_SMG_DISPLAY?SMG                        0018H    0005H
+  +--> ?PR?_DELAY_10US?PUBLIC
+
+?PR?_ESP8266_SENDDATA?WIFI_CONTROL          0018H    0003H
+  +--> ?CO?WIFI_CONTROL
+  +--> ?PR?_ESP8266_SENDCMD?WIFI_CONTROL
+  +--> ?PR?_UART_SENDDATA?UART
+  +--> ?PR?_DELAY_10US?PUBLIC
+
+
+
+SYMBOL TABLE OF MODULE:  .\Obj\template (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 4
+
+
+  C:0003H         LINE#         38
+  C:0003H         LINE#         39
+  C:0003H         LINE#         40
+  C:0006H         LINE#         42
+  C:0006H         LINE#         43
+  C:0006H         LINE#         44
+  C:0009H         LINE#         45
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        SMG
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:040FH         PUBLIC        _smg_display
+  D:0022H         PUBLIC        gsmg_code
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:00A0H.2       PUBLIC        LSA
+  B:00A0H.3       PUBLIC        LSB
+  B:00A0H.4       PUBLIC        LSC
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _SMG_DISPLAY
+  D:0018H         SYMBOL        dat
+  D:0005H         SYMBOL        pos
+  -------         DO            
+  D:001BH         SYMBOL        i
+  D:001CH         SYMBOL        pos_temp
+  -------         ENDDO         
+  C:040FH         LINE#         14
+  C:0415H         LINE#         15
+  C:0415H         LINE#         16
+  C:0418H         LINE#         17
+  C:041CH         LINE#         19
+  C:0425H         LINE#         20
+  C:0425H         LINE#         21
+  C:044BH         LINE#         22
+  C:044BH         LINE#         23
+  C:044FH         LINE#         24
+  C:0453H         LINE#         25
+  C:0457H         LINE#         26
+  C:045BH         LINE#         27
+  C:0463H         LINE#         28
+  C:046BH         LINE#         29
+  C:0473H         LINE#         30
+  C:0479H         LINE#         31
+  C:0479H         LINE#         32
+  C:0491H         LINE#         33
+  C:0498H         LINE#         34
+  C:049BH         LINE#         35
+  C:04A0H         LINE#         36
+  -------         ENDPROC       _SMG_DISPLAY
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 5
+
+
+  -------         ENDMOD        SMG
+
+  -------         MODULE        DS18B20
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  C:000EH         PUBLIC        ds18b20_reset
+  D:00A8H         PUBLIC        IE
+  C:089AH         PUBLIC        ds18b20_start
+  D:00B8H         PUBLIC        IP
+  C:0805H         PUBLIC        ds18b20_read_byte
+  C:08E2H         PUBLIC        ds18b20_init
+  C:082BH         PUBLIC        ds18b20_read_bit
+  C:070EH         PUBLIC        _ds18b20_write_byte
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:052DH         PUBLIC        ds18b20_read_temperture
+  B:00B0H.7       PUBLIC        DS18B20_PORT
+  D:00C8H         PUBLIC        T2CON
+  C:06C7H         PUBLIC        ds18b20_check
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          DS18B20_RESET
+  C:000EH         LINE#         10
+  C:000EH         LINE#         11
+  C:000EH         LINE#         12
+  C:0010H         LINE#         13
+  C:0017H         LINE#         14
+  C:0019H         LINE#         15
+  -------         ENDPROC       DS18B20_RESET
+  -------         PROC          DS18B20_CHECK
+  -------         DO            
+  D:001FH         SYMBOL        time_temp
+  -------         ENDDO         
+  C:06C7H         LINE#         24
+  C:06C7H         LINE#         25
+  C:06C7H         LINE#         26
+  C:06CAH         LINE#         28
+  C:06D4H         LINE#         29
+  C:06D4H         LINE#         30
+  C:06D6H         LINE#         31
+  C:06DDH         LINE#         32
+  C:06DFH         LINE#         33
+  C:06E9H         LINE#         34
+  C:06ECH         LINE#         35
+  C:06F6H         LINE#         36
+  C:06F6H         LINE#         37
+  C:06F8H         LINE#         38
+  C:06FFH         LINE#         39
+  C:0701H         LINE#         40
+  C:070BH         LINE#         41
+  C:070DH         LINE#         42
+  -------         ENDPROC       DS18B20_CHECK
+  -------         PROC          DS18B20_READ_BIT
+  -------         DO            
+  D:0021H         SYMBOL        dat
+  -------         ENDDO         
+  C:082BH         LINE#         50
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 6
+
+
+  C:082BH         LINE#         51
+  C:082BH         LINE#         52
+  C:082EH         LINE#         54
+  C:0830H         LINE#         55
+  C:0832H         LINE#         56
+  C:0834H         LINE#         57
+  C:0836H         LINE#         58
+  C:083EH         LINE#         59
+  C:0841H         LINE#         60
+  C:0848H         LINE#         61
+  C:084AH         LINE#         62
+  -------         ENDPROC       DS18B20_READ_BIT
+  -------         PROC          DS18B20_READ_BYTE
+  -------         DO            
+  D:001FH         SYMBOL        i
+  D:0020H         SYMBOL        dat
+  D:0007H         SYMBOL        temp
+  -------         ENDDO         
+  C:0805H         LINE#         70
+  C:0805H         LINE#         71
+  C:0805H         LINE#         72
+  C:0808H         LINE#         73
+  C:080AH         LINE#         74
+  C:080BH         LINE#         76
+  C:080DH         LINE#         77
+  C:080DH         LINE#         78
+  C:0810H         LINE#         79
+  C:081FH         LINE#         80
+  C:0828H         LINE#         81
+  C:082AH         LINE#         82
+  -------         ENDPROC       DS18B20_READ_BYTE
+  -------         PROC          _DS18B20_WRITE_BYTE
+  D:001FH         SYMBOL        dat
+  -------         DO            
+  D:0020H         SYMBOL        i
+  D:0021H         SYMBOL        temp
+  -------         ENDDO         
+  C:070EH         LINE#         90
+  C:0710H         LINE#         91
+  C:0710H         LINE#         92
+  C:0713H         LINE#         93
+  C:0715H         LINE#         95
+  C:0717H         LINE#         96
+  C:0717H         LINE#         97
+  C:071DH         LINE#         98
+  C:0723H         LINE#         99
+  C:0727H         LINE#         100
+  C:0727H         LINE#         101
+  C:0729H         LINE#         102
+  C:072BH         LINE#         103
+  C:072DH         LINE#         104
+  C:0734H         LINE#         105
+  C:0736H         LINE#         107
+  C:0736H         LINE#         108
+  C:0738H         LINE#         109
+  C:073FH         LINE#         110
+  C:0741H         LINE#         111
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 7
+
+
+  C:0743H         LINE#         112
+  C:0743H         LINE#         113
+  C:074CH         LINE#         114
+  -------         ENDPROC       _DS18B20_WRITE_BYTE
+  -------         PROC          DS18B20_START
+  C:089AH         LINE#         122
+  C:089AH         LINE#         123
+  C:089AH         LINE#         124
+  C:089DH         LINE#         125
+  C:08A0H         LINE#         126
+  C:08A5H         LINE#         127
+  -------         ENDPROC       DS18B20_START
+  -------         PROC          DS18B20_INIT
+  C:08E2H         LINE#         136
+  C:08E2H         LINE#         137
+  C:08E2H         LINE#         138
+  C:08E5H         LINE#         139
+  C:08E8H         LINE#         140
+  -------         ENDPROC       DS18B20_INIT
+  -------         PROC          DS18B20_READ_TEMPERTURE
+  -------         DO            
+  D:0018H         SYMBOL        temp
+  D:0007H         SYMBOL        dath
+  D:001CH         SYMBOL        datl
+  D:001DH         SYMBOL        value
+  -------         ENDDO         
+  C:052DH         LINE#         148
+  C:052DH         LINE#         149
+  C:052DH         LINE#         151
+  C:052FH         LINE#         152
+  C:0531H         LINE#         153
+  C:0535H         LINE#         155
+  C:0538H         LINE#         156
+  C:053BH         LINE#         157
+  C:053EH         LINE#         158
+  C:0543H         LINE#         159
+  C:0548H         LINE#         161
+  C:054DH         LINE#         162
+  C:0550H         LINE#         163
+  C:055DH         LINE#         165
+  C:0564H         LINE#         166
+  C:0564H         LINE#         167
+  C:0575H         LINE#         168
+  C:0583H         LINE#         169
+  C:0585H         LINE#         171
+  C:0585H         LINE#         172
+  C:059FH         LINE#         173
+  C:059FH         LINE#         174
+  C:05A7H         LINE#         175
+  -------         ENDPROC       DS18B20_READ_TEMPERTURE
+  -------         ENDMOD        DS18B20
+
+  -------         MODULE        PUBLIC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 8
+
+
+  D:00B8H         PUBLIC        IP
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:08D7H         PUBLIC        _delay_10us
+  C:084BH         PUBLIC        _delay_ms
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAY_10US
+  D:0006H         SYMBOL        ten_us
+  C:08D7H         LINE#         9
+  C:08D7H         LINE#         10
+  C:08D7H         LINE#         11
+  C:08E1H         LINE#         12
+  -------         ENDPROC       _DELAY_10US
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        ms
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:084BH         LINE#         20
+  C:084BH         LINE#         21
+  C:084BH         LINE#         23
+  C:0854H         LINE#         24
+  C:0868H         LINE#         25
+  -------         ENDPROC       _DELAY_MS
+  -------         ENDMOD        PUBLIC
+
+  -------         MODULE        UART
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:0033H         PUBLIC        UART_RX_BUF
+  D:00A8H         PUBLIC        IE
+  D:003DH         PUBLIC        UART_RX_STA
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.1       PUBLIC        TI
+  C:07B1H         PUBLIC        _UART_SendString
+  C:08C9H         PUBLIC        _UART_SendData
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  C:0884H         PUBLIC        UART_Init
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  B:0088H.6       PUBLIC        TR1
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          UART_INIT
+  C:0884H         LINE#         5
+  C:0884H         LINE#         6
+  C:0884H         LINE#         7
+  C:0887H         LINE#         8
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 9
+
+
+  C:088AH         LINE#         9
+  C:088DH         LINE#         10
+  C:0890H         LINE#         11
+  C:0893H         LINE#         12
+  C:0895H         LINE#         13
+  C:0897H         LINE#         14
+  C:0899H         LINE#         16
+  -------         ENDPROC       UART_INIT
+  -------         PROC          _UART_SENDDATA
+  D:0007H         SYMBOL        dat
+  C:08C9H         LINE#         18
+  C:08C9H         LINE#         19
+  C:08C9H         LINE#         20
+  C:08CBH         LINE#         21
+  C:08CDH         LINE#         22
+  C:08CFH         LINE#         23
+  C:08D2H         LINE#         24
+  C:08D4H         LINE#         25
+  C:08D6H         LINE#         26
+  -------         ENDPROC       _UART_SENDDATA
+  -------         PROC          _UART_SENDSTRING
+  D:003FH         SYMBOL        pbuf
+  C:07B1H         LINE#         28
+  C:07B7H         LINE#         29
+  C:07B7H         LINE#         30
+  C:07C3H         LINE#         31
+  C:07C3H         LINE#         32
+  C:07C6H         LINE#         33
+  C:07CDH         LINE#         34
+  C:07D8H         LINE#         35
+  C:07DAH         LINE#         36
+  -------         ENDPROC       _UART_SENDSTRING
+  -------         ENDMOD        UART
+
+  -------         MODULE        TIMER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  D:00C8H         PUBLIC        T2CON
+  C:08AAH         PUBLIC        time0_init
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          TIME0_INIT
+  C:08AAH         LINE#         3
+  C:08AAH         LINE#         4
+  C:08AAH         LINE#         5
+  C:08ADH         LINE#         6
+  C:08B0H         LINE#         7
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 10
+
+
+  C:08B3H         LINE#         8
+  C:08B5H         LINE#         9
+  C:08B7H         LINE#         10
+  C:08B9H         LINE#         11
+  -------         ENDPROC       TIME0_INIT
+  -------         ENDMOD        TIMER
+
+  -------         MODULE        WIFI_CONTROL
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A0H.0       PUBLIC        LED1
+  B:00A0H.1       PUBLIC        LED2
+  B:00A0H.2       PUBLIC        LED3
+  D:00A8H         PUBLIC        IE
+  C:02CAH         PUBLIC        wifi_control
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  C:074DH         PUBLIC        _ESP8266_SendData
+  C:08BAH         PUBLIC        wifi_control_init
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0784H         PUBLIC        ESP8266_ModeInit
+  C:067FH         PUBLIC        _ESP8266_SendCmd
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  C:07DBH         PUBLIC        time0
+  D:00C8H         PUBLIC        T2CON
+  C:061FH         PUBLIC        UART_IRQn
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _ESP8266_SENDCMD
+  D:001BH         SYMBOL        pbuf
+  C:067FH         LINE#         23
+  C:0685H         LINE#         24
+  C:0685H         LINE#         25
+  C:0691H         LINE#         26
+  C:0691H         LINE#         27
+  C:0694H         LINE#         28
+  C:069BH         LINE#         29
+  C:06A6H         LINE#         30
+  C:06A8H         LINE#         31
+  C:06AFH         LINE#         32
+  C:06B4H         LINE#         33
+  C:06BBH         LINE#         34
+  C:06C0H         LINE#         35
+  -------         ENDPROC       _ESP8266_SENDCMD
+  -------         PROC          _ESP8266_SENDDATA
+  D:0018H         SYMBOL        pbuf
+  C:074DH         LINE#         40
+  C:0753H         LINE#         41
+  C:0753H         LINE#         42
+  C:075CH         LINE#         43
+  C:0768H         LINE#         44
+  C:0768H         LINE#         45
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 11
+
+
+  C:076BH         LINE#         46
+  C:0772H         LINE#         47
+  C:077DH         LINE#         48
+  C:077FH         LINE#         49
+  -------         ENDPROC       _ESP8266_SENDDATA
+  -------         PROC          ESP8266_MODEINIT
+  C:0784H         LINE#         54
+  C:0784H         LINE#         55
+  C:0784H         LINE#         56
+  C:078DH         LINE#         57
+  C:0796H         LINE#         58
+  C:079FH         LINE#         61
+  C:07A8H         LINE#         62
+  -------         ENDPROC       ESP8266_MODEINIT
+  -------         PROC          WIFI_CONTROL_INIT
+  C:08BAH         LINE#         66
+  C:08BAH         LINE#         67
+  C:08BAH         LINE#         68
+  C:08BDH         LINE#         69
+  C:08C0H         LINE#         70
+  C:08C3H         LINE#         71
+  C:08C6H         LINE#         72
+  C:08C8H         LINE#         73
+  -------         ENDPROC       WIFI_CONTROL_INIT
+  -------         PROC          WIFI_CONTROL
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:000AH         SYMBOL        temp_value
+  D:000CH         SYMBOL        temp_buf
+  D:0011H         SYMBOL        wifi_send_buf
+  -------         ENDDO         
+  C:02CAH         LINE#         76
+  C:02CAH         LINE#         77
+  C:02CAH         LINE#         78
+  C:02CFH         LINE#         83
+  C:02CFH         LINE#         84
+  C:02CFH         LINE#         85
+  C:02D7H         LINE#         86
+  C:02E5H         LINE#         87
+  C:02F9H         LINE#         88
+  C:0302H         LINE#         89
+  C:0302H         LINE#         90
+  C:030DH         LINE#         91
+  C:0310H         LINE#         92
+  C:0313H         LINE#         93
+  C:0315H         LINE#         95
+  C:0315H         LINE#         96
+  C:0318H         LINE#         97
+  C:031BH         LINE#         98
+  C:031BH         LINE#         99
+  C:032DH         LINE#         100
+  C:034EH         LINE#         101
+  C:0371H         LINE#         102
+  C:0383H         LINE#         103
+  C:038EH         LINE#         104
+  C:03A0H         LINE#         105
+  C:03A0H         LINE#         106
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 12
+
+
+  C:03B0H         LINE#         107
+  C:03CFH         LINE#         108
+  C:03EEH         LINE#         109
+  C:03F1H         LINE#         110
+  C:0401H         LINE#         111
+  C:0404H         LINE#         112
+  C:040CH         LINE#         113
+  C:040CH         LINE#         114
+  -------         ENDPROC       WIFI_CONTROL
+  -------         PROC          UART_IRQN
+  -------         DO            
+  D:0042H         SYMBOL        i
+  -------         ENDDO         
+  C:061FH         LINE#         119
+  C:0628H         LINE#         123
+  C:062BH         LINE#         124
+  C:062BH         LINE#         125
+  C:062DH         LINE#         126
+  C:0634H         LINE#         127
+  C:063DH         LINE#         128
+  C:0640H         LINE#         129
+  C:0646H         LINE#         130
+  C:0646H         LINE#         131
+  C:0648H         LINE#         133
+  C:064DH         LINE#         134
+  C:0651H         LINE#         135
+  C:0656H         LINE#         136
+  C:0658H         LINE#         137
+  C:065DH         LINE#         138
+  C:0661H         LINE#         139
+  C:0666H         LINE#         140
+  C:0668H         LINE#         141
+  C:066DH         LINE#         142
+  C:0671H         LINE#         143
+  C:0676H         LINE#         144
+  C:0678H         LINE#         145
+  C:0678H         LINE#         146
+  C:0678H         LINE#         147
+  -------         ENDPROC       UART_IRQN
+  -------         PROC          TIME0
+  -------         DO            
+  D:0043H         SYMBOL        i
+  -------         ENDDO         
+  C:07DBH         LINE#         149
+  C:07DFH         LINE#         152
+  C:07E2H         LINE#         153
+  C:07E5H         LINE#         154
+  C:07E8H         LINE#         155
+  C:07E8H         LINE#         156
+  C:07F0H         LINE#         157
+  C:07F8H         LINE#         158
+  C:07F8H         LINE#         159
+  C:07FEH         LINE#         160
+  C:0800H         LINE#         161
+  C:0800H         LINE#         162
+  C:0800H         LINE#         163
+  -------         ENDPROC       TIME0
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/08/2024  00:02:56  PAGE 13
+
+
+  -------         ENDMOD        WIFI_CONTROL
+
+  -------         MODULE        ?C?FPMUL
+  C:0026H         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FCAST
+  C:0136H         PUBLIC        ?C?FCASTC
+  C:0131H         PUBLIC        ?C?FCASTI
+  C:012CH         PUBLIC        ?C?FCASTL
+  -------         ENDMOD        ?C?FCAST
+
+  -------         MODULE        ?C?CASTF
+  C:016AH         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        ?C?CLDPTR
+  C:01EBH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?CLDOPTR
+  C:0204H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?UIDIV
+  C:0231H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?SIDIV
+  C:0286H         PUBLIC        ?C?SIDIV
+  -------         ENDMOD        ?C?SIDIV
+
+  -------         MODULE        ?C?LNEG
+  C:02BCH         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_UART_SENDSTRING?UART
+
+Program Size: data=70.0 xdata=0 code=2278
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

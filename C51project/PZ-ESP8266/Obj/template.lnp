@@ -1,0 +1,9 @@
+".\Obj\main.obj",
+".\Obj\smg.obj",
+".\Obj\ds18b20.obj",
+".\Obj\public.obj",
+".\Obj\uart.obj",
+".\Obj\timer.obj",
+".\Obj\wifi_control.obj" 
+TO ".\Obj\template" 
+PRINT(".\Obj\template.m51") RAMSIZE(256) 

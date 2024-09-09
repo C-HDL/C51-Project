@@ -1,0 +1,6 @@
+"main.obj",
+"key.obj",
+"smg.obj",
+"public.obj" 
+TO "template" 
+RAMSIZE(256) 

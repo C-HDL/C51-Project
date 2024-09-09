@@ -1,0 +1,1 @@
+"APP\smg\smg.c" BROWSE INCDIR(.\Public;.\APP\key;.\APP\smg) DEBUG OBJECTEXTEND PRINT(.\smg.lst) OBJECT(smg.obj)

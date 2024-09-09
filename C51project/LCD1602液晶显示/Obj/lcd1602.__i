@@ -1,0 +1,1 @@
+"APP\lcd1602\lcd1602.c" BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at24c02;.\APP\ds18b20;.\APP\ds1302;.\APP\smg;.\APP\ired;.\APP\xpt2046;.\APP\lcd1602) DEBUG OBJECTEXTEND PRINT(.\Obj\lcd1602.lst) OBJECT(.\Obj\lcd1602.obj)

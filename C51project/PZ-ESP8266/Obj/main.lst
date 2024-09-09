@@ -1,0 +1,38 @@
+C51 COMPILER V9.01   MAIN                                                                  05/15/2024 16:31:12 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Obj\main.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE User\main.c BROWSE INCDIR(.\App\24c02;.\App\iic;.\App\key;.\App\smg;.\Pu
+                    -blic;.\App\ds18b20;.\App_Demo) DEBUG OBJECTEXTEND PRINT(.\Obj\main.lst) OBJECT(.\Obj\main.obj)
+
+line level    source
+
+   1          
+   2          #include "public.h"
+   3          #include "wifi_control.h"
+   4          
+   5          
+   6          void main()
+   7          {       
+   8   1              wifi_control_init();
+   9   1      
+  10   1              while(1)
+  11   1              {                               
+  12   2                      
+  13   2              }               
+  14   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      5    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

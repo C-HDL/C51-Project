@@ -1,0 +1,59 @@
+C51 COMPILER V9.01   AT24C02                                                               01/13/2024 21:04:05 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE AT24C02
+OBJECT MODULE PLACED IN .\Obj\at24c02.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE APP\at24c02\at24c02.c BROWSE INCDIR(.\Public;.\APP\key;.\APP\smg;.\APP\i
+                    -ic;.\APP\at24c02) DEBUG OBJECTEXTEND PRINT(.\Obj\at24c02.lst) OBJECT(.\Obj\at24c02.obj)
+
+line level    source
+
+   1          #include "at24c02.h"
+   2          #include "iic.h"
+   3          void at24c02_write_byte(u8 address,u8 dat)
+   4          {
+   5   1                      
+   6   1              iic_start();
+   7   1              iic_write_byte(0xA0);
+   8   1              iic_wait_ack();
+   9   1              iic_write_byte(address);
+  10   1              iic_wait_ack();
+  11   1              iic_write_byte(dat);
+  12   1              iic_wait_ack();
+  13   1              iic_stop();
+  14   1              delay_ms(10);
+  15   1      
+  16   1              
+  17   1      }
+  18          
+  19          u8 at24c02_read_byte(u8 address)
+  20          {       u8 temp=0;
+  21   1              iic_start();
+  22   1              iic_write_byte(0xA0);
+  23   1              iic_wait_ack();
+  24   1              iic_write_byte(address);
+  25   1              iic_wait_ack();
+  26   1              iic_start();
+  27   1              iic_write_byte(0xA1);
+  28   1              iic_wait_ack();
+  29   1              temp=iic_read_byte(0);
+  30   1              iic_stop();
+  31   1              return temp;
+  32   1                      
+  33   1              
+  34   1      
+  35   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     89    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

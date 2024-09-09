@@ -1,0 +1,8 @@
+".\Obj\main.obj",
+".\Obj\key.obj",
+".\Obj\smg.obj",
+".\Obj\iic.obj",
+".\Obj\at24c02.obj",
+".\Obj\public.obj" 
+TO ".\Obj\template" 
+PRINT(".\Obj\template.m51") RAMSIZE(256) 

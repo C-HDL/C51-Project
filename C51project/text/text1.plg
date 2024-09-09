@@ -1,0 +1,28 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+E:\51µ¥Æ¬»úproject\text1.uvproj
+Project File Date:  12/03/2023
+
+<h2>Output:</h2>
+compiling main.c...
+MAIN.C(3): error C136: 'main': 'void' on variable
+MAIN.C(3): error C129: missing ';' before '{'
+main.c - 2 Error(s), 0 Warning(s).
+compiling main.c...
+MAIN.C(3): error C136: 'main': 'void' on variable
+MAIN.C(3): error C129: missing ';' before '{'
+main.c - 2 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(3): error C136: 'main': 'void' on variable
+MAIN.C(3): error C129: missing ';' before '{'
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=9.0 xdata=0 code=17
+creating hex file from "text1"...
+"text1" - 0 Error(s), 0 Warning(s).

@@ -1,0 +1,1 @@
+"APP\xpt2046\xpt2046.c" BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at24c02;.\APP\ds18b20;.\APP\ds1302;.\APP\smg;.\APP\ired;.\APP\xpt2046) DEBUG OBJECTEXTEND PRINT(.\Obj\xpt2046.lst) OBJECT(.\Obj\xpt2046.obj)

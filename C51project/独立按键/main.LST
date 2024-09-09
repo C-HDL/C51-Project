@@ -1,0 +1,97 @@
+C51 COMPILER V9.01   MAIN                                                                  12/06/2023 17:00:25 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "reg52.h"
+   2          sbit KEY1 = P3^1;
+   3          sbit KEY2 = P3^0;
+   4          sbit KEY3 = P3^2;
+   5          sbit KEY4 = P3^3;
+   6          sbit LED1 = P2^0;
+   7          sbit LED3 = P2^2;
+   8          sbit LED5 = P2^4;
+   9          sbit LED7 = P2^6;
+  10          #define key1_p  1
+  11          #define key2_p  2
+  12          #define key3_p  3
+  13          #define key4_p  4
+  14          #define nopress 5
+  15          
+  16          
+  17          
+  18          void delay(unsigned int x){
+  19   1           while(x--);
+  20   1               }
+  21          unsigned char scan(unsigned char mode){
+  22   1           static unsigned char key=1;
+  23   1               if(mode==1){
+  24   2               key=1;}
+  25   1               
+  26   1               if(key==1&&KEY1==0){
+  27   2               delay(1000);
+  28   2               key=0; 
+  29   2               return key1_p;} 
+  30   1               else if(key==1&&KEY2==0){
+  31   2               delay(100000);
+  32   2               key=0;
+  33   2               return key2_p;}
+  34   1               else if(key==1&&KEY3==0){
+  35   2               delay(1000);
+  36   2               key=0;
+  37   2               return key3_p;}
+  38   1               else if(key==1&&KEY4==0){
+  39   2               delay(1000);
+  40   2               key=0;
+  41   2               return key4_p;}   
+  42   1       
+  43   1       /*     if(key==1&&(KEY1==0||KEY2==0||KEY3==0||KEY4==0)){
+  44   1               delay(1000);
+  45   1               key=0;
+  46   1               if(KEY1==0)
+  47   1                  return key1_p;
+  48   1           else if(KEY2==0)
+  49   1                          return key2_p;
+  50   1               else if(KEY3==0)
+  51   1                              return key3_p;
+  52   1               else if(KEY4==0)
+  53   1                              return key4_p;} */ 
+  54   1               else if(KEY1==1&&KEY2==1&&KEY3==1&&KEY4==1)
+  55   1               { delay(1000);
+C51 COMPILER V9.01   MAIN                                                                  12/06/2023 17:00:25 PAGE 2   
+
+  56   2               key=1;
+  57   2                 return nopress;      }
+  58   1               }
+  59                    
+  60          void main()
+  61          {        unsigned char key=0; 
+  62   1           while(1)
+  63   1               {key=scan(0);
+  64   2               if(key==key2_p){
+  65   3                  LED1=!LED1;
+  66   3                      LED3=!LED3;
+  67   3                      LED5=!LED5;
+  68   3                      LED7=!LED7;
+  69   3               }       
+  70   2               }
+  71   1      }
+*** WARNING C291 IN LINE 58 OF MAIN.C: not every exit path returns a value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    132    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

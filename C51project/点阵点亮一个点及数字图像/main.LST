@@ -1,0 +1,91 @@
+C51 COMPILER V9.01   MAIN                                                                  12/09/2023 22:40:10 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "reg52.h"
+   2          
+   3          typedef unsigned char u8;
+   4          typedef unsigned char u16;
+   5          sbit SCK=P3^6;
+   6          sbit RCK=P3^5;
+   7          sbit SER=P3^4;
+   8          
+   9          #define LEDdianzhen_COL_PORT P0
+  10          u8 the_data[]={0x01,0xE5,0xA9,0xF5,0xAA,0xF4,0xA8,0xE0,
+  11                                          0x21,0x2A,0xAC,0xBB,0xEA,0xAA,0xF3,0x20,
+  12                                          0x7F,0x80,0x80,0x7F,0x00,0xFF,0x11,0x1F         };
+  13          u8 LEDdianzhen_COL_PORT_shuzu[]={0x7f,0xbf,0xdf,0xef,0xf7,0xfb,0xfd,0xfe};
+  14          
+  15          void delay(unsigned int x){
+  16   1           while(x--);
+  17   1               }
+  18          void write_data_595(u8 the_data){
+  19   1                    int i=0;
+  20   1                                for(i=0;i<8;i++){
+  21   2                                       SER = the_data >> 7;
+  22   2                                               the_data <<= 1;
+  23   2                                               SCK=0;
+  24   2                                               delay(1);
+  25   2                                               SCK=1;
+  26   2                                }
+  27   1                                RCK=0;
+  28   1                                delay(1);
+  29   1                                RCK=1;
+  30   1                                }                     
+  31             
+  32          
+  33          void main()
+  34          {         
+  35   1           u8  i;
+  36   1               
+  37   1               while(1)
+  38   1               {               for(i=0;i<8;i++){
+  39   3                          
+  40   3                                      LEDdianzhen_COL_PORT=LEDdianzhen_COL_PORT_shuzu[i];
+  41   3                                      write_data_595(the_data[i]);
+  42   3                                      write_data_595(0x00);
+  43   3                                      delay(100);
+  44   3                                      }
+  45   2      
+  46   2                               delay(1000000000);
+  47   2                               for(i=0;i<8;i++){
+  48   3                          
+  49   3                                      LEDdianzhen_COL_PORT=LEDdianzhen_COL_PORT_shuzu[i];
+  50   3                                      write_data_595(the_data[i+8]);
+  51   3                                      write_data_595(0x00);
+  52   3                                      delay(100);}
+  53   2                                      delay(1000000000);
+  54   2                                      for(i=0;i<8;i++){
+  55   3                          
+C51 COMPILER V9.01   MAIN                                                                  12/09/2023 22:40:10 PAGE 2   
+
+  56   3                                      LEDdianzhen_COL_PORT=LEDdianzhen_COL_PORT_shuzu[i];
+  57   3                                      write_data_595(the_data[i+16]);
+  58   3                                      write_data_595(0x00);
+  59   3                                      delay(100);}
+  60   2                                      delay(1000000000);  
+  61   2                                      
+  62   2               
+  63   2                       
+  64   2               
+  65   2               }
+  66   1               }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    158    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     32    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

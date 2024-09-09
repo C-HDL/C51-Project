@@ -1,0 +1,1 @@
+"APP\ired\ired.c" BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at24c02;.\APP\ds18b20;.\APP\ds1302;.\APP\smg;.\APP\ired) DEBUG OBJECTEXTEND PRINT(.\Obj\ired.lst) OBJECT(.\Obj\ired.obj)

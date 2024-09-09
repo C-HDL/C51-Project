@@ -1,0 +1,1 @@
+"APP\ds18b20\ds18b20.c" BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at24c02;.\APP\ds18b20;.\APP\ds1302;.\APP\smg;.\APP\ired;.\APP\xpt2046;.\APP\lcd1602) DEBUG OBJECTEXTEND PRINT(.\Obj\ds18b20.lst) OBJECT(.\Obj\ds18b20.obj)

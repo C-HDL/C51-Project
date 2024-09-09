@@ -1,0 +1,64 @@
+C51 COMPILER V9.01   PWM                                                                   01/18/2024 11:11:15 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE PWM
+OBJECT MODULE PLACED IN .\Obj\pwm.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE APP\pwm\pwm.c BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at24c02;.
+                    -\APP\ds18b20;.\APP\ds1302;.\APP\smg;.\APP\ired;.\APP\xpt2046;.\APP\pwm) DEBUG OBJECTEXTEND PRINT(.\Obj\pwm.lst) OBJECT(.
+                    -\Obj\pwm.obj)
+
+line level    source
+
+   1          #include "pwm.h"
+   2          
+   3          u8 ghigh=0;
+   4          u8 glow=0;
+   5          u8 gscale=0;
+   6          u8 gduty=0;
+   7          void pwm_init(u8 high,u8 low,u8 scale,u8 duty)                          //high和low确定（pwm用定时器）定时器的一个周期（这个时间
+             -内产生中断，在里边儿对占空比进行确定），scale（进行倍频放大定时器的周期）来确定pwm的一个周期,duty是占空比
+   8          {
+   9   1      
+  10   1              ghigh=high;
+  11   1              glow=low;
+  12   1              gscale=scale;
+  13   1              gduty=duty;
+  14   1              TMOD|=0X01;
+  15   1              TH0=ghigh;
+  16   1              TL0=glow;
+  17   1              ET0=1;
+  18   1              EA=1;
+  19   1              TR0=1;
+  20   1      }
+  21          void set_duty(u8 duty)
+  22          {
+  23   1              gduty=duty;
+  24   1      }
+  25          
+  26          
+  27          
+  28          void pwm()      interrupt 1
+  29          {       static u16 i=0;
+  30   1              TH0=ghigh;
+  31   1              TL0=glow;
+  32   1      
+  33   1              i++;
+  34   1      
+  35   1              if(i>=gscale)   i=0;
+  36   1              if(i<=gduty)    PWM=1;
+  37   1              else                    PWM=0;  
+  38   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     83    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

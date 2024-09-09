@@ -1,0 +1,52 @@
+C51 COMPILER V9.01   MAIN                                                                  01/16/2024 15:20:05 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Obj\main.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE User\main.c BROWSE INCDIR(.\Public;.\APP\key;.\APP\smg;.\APP\iic;.\APP\a
+                    -t24c02;.\APP\ds18b20) DEBUG OBJECTEXTEND PRINT(.\Obj\main.lst) OBJECT(.\Obj\main.obj)
+
+line level    source
+
+   1          #include "public.h"
+   2          #include "smg.h"
+   3          #include "ds18b20.h"
+   4          
+   5          void main(){
+   6   1              u8 i=0;
+   7   1              int temp_value=0;
+   8   1              u8 buf[5];
+   9   1              ds18b20_init();
+  10   1              while(1){
+  11   2                      i++;
+  12   2                      if(i%50==0)
+  13   2                      temp_value=ds18b20_read_temperature()*10;
+  14   2                      if(temp_value<0)
+  15   2                      {
+  16   3                              temp_value=-temp_value;
+  17   3                              buf[0]=0x40;
+  18   3      
+  19   3                      }
+  20   2                      else buf[0]=0x00;
+  21   2                      buf[1]=gsmg_code[temp_value/1000];
+  22   2                      buf[2]=gsmg_code[temp_value%1000/100];
+  23   2                      buf[3]=gsmg_code[temp_value%1000%100/10]|0x80;
+  24   2                      buf[4]=gsmg_code[temp_value%1000%100%10];
+  25   2                      smg_display(buf,4); 
+  26   2      
+  27   2         }
+  28   1       } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    188    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

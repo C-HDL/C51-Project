@@ -1,0 +1,47 @@
+C51 COMPILER V9.01   MAIN                                                                  01/17/2024 13:05:56 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Obj\main.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE User\main.c BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at24c02;.\A
+                    -PP\ds18b20;.\APP\ds1302;.\APP\smg;.\APP\ired;.\APP\xpt2046) DEBUG OBJECTEXTEND PRINT(.\Obj\main.lst) OBJECT(.\Obj\main.o
+                    -bj)
+
+line level    source
+
+   1          #include "public.h"
+   2          #include "smg.h"
+   3          #include "xpt2046.h"
+   4          
+   5          
+   6          void main(){
+   7   1              u16 temp=0;
+   8   1              float vol;
+   9   1              u8 buf[3];
+  10   1              while(1){
+  11   2                temp=xpt2045_read_adc_value(0x94);
+  12   2                vol=5.0*temp/4096;
+  13   2                temp=vol*10;
+  14   2                buf[0]=gsmg_code[temp/10]|0x80;
+  15   2                buf[1]=gsmg_code[temp%10];
+  16   2                buf[2]=0x3e;
+  17   2                smg_display(buf,6);
+  18   2      
+  19   2      
+  20   2      
+  21   2       }      
+  22   1               }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    125    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

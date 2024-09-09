@@ -1,0 +1,102 @@
+C51 COMPILER V9.01   MAIN                                                                  09/03/2024 08:26:06 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "reg52.h"
+   2          #include "intrins.h"
+   3          
+   4          //#define LED           P2
+   5          sbit led9999 = P2^1      ;
+   6          unsigned char led[]={0x7f,0xbf,0xdf,0xef,0xf7,0xfb,0xfd,0xfe};
+   7          
+   8          void delay(unsigned int x){
+   9   1           while(x--)  ;
+  10   1               }
+  11          void main()
+  12          {        int i;
+  13   1           /*while(1){
+  14   1                 for(i=0;i<8;i++){
+  15   1                 LED=led[i];
+  16   1                 delay(50000);
+  17   1                 }
+  18   1               } */
+  19   1           /*
+  20   1           while(1)
+  21   1               { LED1=0;
+  22   1                 delay(50000) ;
+  23   1                 LED1=1;
+  24   1                 delay(50000);
+  25   1                 LED2=0;
+  26   1                 delay(50000) ;
+  27   1                 LED2=1;
+  28   1                 delay(50000);
+  29   1                 LED3=0;
+  30   1                 delay(50000) ;
+  31   1                 LED3=1;
+  32   1                 delay(50000);
+  33   1                 LED4=0;
+  34   1                 delay(50000) ;
+  35   1                 LED4=1;
+  36   1                 delay(50000);
+  37   1                 LED5=0;
+  38   1                 delay(50000) ;
+  39   1                 LED5=1;
+  40   1                 delay(50000);
+  41   1                 LED6=0;
+  42   1                 delay(50000) ;
+  43   1                 LED6=1;
+  44   1                 delay(50000);
+  45   1                 LED7=0;
+  46   1                 delay(50000) ;
+  47   1                 LED7=1;
+  48   1                 delay(50000);
+  49   1                 LED8=0;
+  50   1                 delay(50000) ;
+  51   1                 LED8=1;
+  52   1                 delay(50000);
+  53   1               }        */
+  54   1               /*while(1){
+  55   1               for(i=0;i<8;i++){
+C51 COMPILER V9.01   MAIN                                                                  09/03/2024 08:26:06 PAGE 2   
+
+  56   1               LED = ~(0x01<<i);
+  57   1               delay(50000);
+  58   1               LED = 0xff;
+  59   1               delay(50000);}} */ //×óÒÆ
+  60   1      //       LED =0xfe;
+  61   1               while(1){
+  62   2               led9999=0;
+  63   2      //       for(i=0;i<7;i++){
+  64   2      //       LED = _crol_ (LED,1);
+  65   2      //
+  66   2      //       delay(50000);}
+  67   2      //
+  68   2      //       for(i=0;i<7;i++){
+  69   2      //       LED = _cror_ (LED,1);
+  70   2      //
+  71   2      //       delay(50000);}
+  72   2      }               //²ÉÓÃº¯Êý£¬Ñ­»·×óÒÆÓÒÒÆ
+  73   1               
+  74   1               
+  75   1                      
+  76   1      }         
+*** WARNING C280 IN LINE 12 OF MAIN.C: 'i': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     15    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"node2.obj" 
+TO "node2" 
+RAMSIZE(256) 

@@ -1,0 +1,78 @@
+C51 COMPILER V9.01   MAIN                                                                  12/12/2023 21:06:25 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "reg52.h"
+   2          #define time 5000
+   3          typedef unsigned char u8;
+   4          typedef unsigned char u16;
+   5          sbit KEY3 = P3^2;
+   6          sbit KEY4 = P3^3;
+   7          sbit LED1 = P2^0;
+   8          sbit LED2 = P2^1;
+   9          
+  10          void delay(unsigned int x){
+  11   1           while(x--);
+  12   1               }
+  13          void delay_ms(u16 ms)
+  14          {
+  15   1      u16 i,j;
+  16   1      for(i=ms;i>0;i--)
+  17   1      for(j=110;j>0;j--);
+  18   1      }                       
+  19          void exti0_init(){
+  20   1           IT0=1;
+  21   1               EX0=1;
+  22   1               EA=1;
+  23   1      }
+  24          void exti1_init(){
+  25   1           IT1=1;
+  26   1               EX1=1;
+  27   1               EA=1;
+  28   1      }
+  29          void main()
+  30          {         
+  31   1         
+  32   1                              
+  33   1                              
+  34   1               while(1)
+  35   1               {exti0_init();          
+  36   2                exti1_init();
+  37   2                                
+  38   2               }
+  39   1               }
+  40          void  exti0() interrupt 0
+  41          {               delay(10000);
+  42   1                              if(KEY3==0){
+  43   2                                 LED1=!LED1;  
+  44   2                              
+  45   2                              }
+  46   1      }
+  47          void  exti1() interrupt 2
+  48          {               delay(10000);
+  49   1                              if(KEY4==0){
+  50   2                                 LED2=!LED2;  
+  51   2                              
+  52   2                              }
+  53   1      }
+
+
+C51 COMPILER V9.01   MAIN                                                                  12/12/2023 21:06:25 PAGE 2   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    119    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

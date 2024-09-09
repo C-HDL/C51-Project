@@ -1,0 +1,128 @@
+C51 COMPILER V9.01   DS1302                                                                01/16/2024 15:23:38 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DS1302
+OBJECT MODULE PLACED IN .\Obj\ds1302.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE APP\ds1302\ds1302.c BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at2
+                    -4c02;.\APP\ds18b20;.\APP\ds1302;.\APP\smg) DEBUG OBJECTEXTEND PRINT(.\Obj\ds1302.lst) OBJECT(.\Obj\ds1302.obj)
+
+line level    source
+
+   1          #include "ds1302.h"
+   2          #include "intrins.h"
+   3          
+   4          u8 gREAD_RTC_ADDR[7] = {0x81, 0x83, 0x85, 0x87, 0x89, 0x8b, 0x8d};      //秒分时日月周年
+   5          u8 gWRITE_RTC_ADDR[7] = {0x80, 0x82, 0x84, 0x86, 0x88, 0x8a, 0x8c};
+   6          
+   7          u8 gDS1302_TIME[7] = {0x02, 0x24, 0x15, 0x16, 0x01, 0x01, 0x24};
+   8          
+   9          void ds1302_write_byte(u8 addr,u8 dat)
+  10          {
+  11   1              u8 i=0;
+  12   1              DS1302_RST=0;
+  13   1              _nop_();
+  14   1              DS1302_CLK=0;
+  15   1              _nop_();
+  16   1              DS1302_RST=1;
+  17   1              _nop_();
+  18   1              for(i=0;i<8;i++)
+  19   1              {
+  20   2                      DS1302_IO=addr&0x01;
+  21   2                      addr>>=1;
+  22   2                      DS1302_CLK=1;
+  23   2                      _nop_();
+  24   2                      DS1302_CLK=0;
+  25   2                      _nop_();
+  26   2                      
+  27   2              }
+  28   1              for(i=0;i<8;i++)
+  29   1              {
+  30   2                      DS1302_IO=dat&0x01;
+  31   2                      dat>>=1;
+  32   2                      DS1302_CLK=1;
+  33   2                      _nop_();
+  34   2                      DS1302_CLK=0;
+  35   2                      _nop_();
+  36   2                      
+  37   2              }
+  38   1                      DS1302_RST=0;
+  39   1                      _nop_();
+  40   1      }
+  41          
+  42          u8 ds1302_read_byte(u8 addr)
+  43          {
+  44   1              u8 i=0;
+  45   1              u8 temp=0;
+  46   1              u8 value=0;
+  47   1              DS1302_RST=0;
+  48   1              _nop_();
+  49   1              DS1302_CLK=0;
+  50   1              _nop_();
+  51   1              DS1302_RST=1;
+  52   1              _nop_();
+  53   1              for(i=0;i<8;i++)
+  54   1              {
+C51 COMPILER V9.01   DS1302                                                                01/16/2024 15:23:38 PAGE 2   
+
+  55   2                      DS1302_IO=addr&0x01; 
+  56   2                      addr>>=1;
+  57   2                      DS1302_CLK=1;
+  58   2                      _nop_();
+  59   2                      DS1302_CLK=0;
+  60   2                      _nop_();
+  61   2                      
+  62   2              }
+  63   1              for(i=0;i<8;i++)
+  64   1              {       temp=DS1302_IO;
+  65   2                      //value|=(temp << i);
+  66   2                      value=(temp<<7)|(value>>1);
+  67   2                      DS1302_CLK=1;
+  68   2                      _nop_();
+  69   2                      DS1302_CLK=0;
+  70   2                      _nop_();
+  71   2              }
+  72   1                      DS1302_RST=0;
+  73   1                      _nop_();
+  74   1                      DS1302_CLK=1;
+  75   1                      _nop_();
+  76   1                      DS1302_IO=0;
+  77   1                      _nop_();
+  78   1                      DS1302_IO=1;
+  79   1                      _nop_();
+  80   1      
+  81   1                      return value;
+  82   1      
+  83   1      }
+  84          
+  85          void ds1302_init()
+  86          {
+  87   1              u8 i=0;
+  88   1              ds1302_write_byte(0x8e,0x00);
+  89   1              for(i=0;i<7;i++)
+  90   1              {
+  91   2                      ds1302_write_byte(gWRITE_RTC_ADDR[i],gDS1302_TIME[i]);
+  92   2              }
+  93   1              ds1302_write_byte(0x8e,0x80);
+  94   1      }
+  95          
+  96          void ds1302_read_time()
+  97          {       u8 i=0;
+  98   1              for(i=0;i<7;i++)
+  99   1              {
+ 100   2                      gDS1302_TIME[i]=ds1302_read_byte(gREAD_RTC_ADDR[i]);
+ 101   2              }       
+ 102   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    184    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     21    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

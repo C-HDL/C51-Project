@@ -1,0 +1,122 @@
+C51 COMPILER V9.01   IIC                                                                   01/14/2024 21:04:40 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE IIC
+OBJECT MODULE PLACED IN .\Obj\iic.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE APP\iic\iic.c BROWSE INCDIR(.\Public;.\APP\key;.\APP\smg;.\APP\iic;.\APP
+                    -\at24c02) DEBUG OBJECTEXTEND PRINT(.\Obj\iic.lst) OBJECT(.\Obj\iic.obj)
+
+line level    source
+
+   1          #include "iic.h"
+   2          
+   3          void iic_start()
+   4          {
+   5   1              IIC_SCL=1;
+   6   1              IIC_SDA=1;
+   7   1              delay(1);
+   8   1              IIC_SDA=0;
+   9   1              delay(1);
+  10   1              IIC_SCL=0;
+  11   1      }
+  12          
+  13          
+  14          void iic_stop()
+  15          {       IIC_SDA=0;
+  16   1              delay(1);
+  17   1              IIC_SCL=1;      
+  18   1              delay(1);
+  19   1              IIC_SDA=1;
+  20   1              delay(1);
+  21   1      }
+  22          
+  23          void iic_ack()
+  24          {       
+  25   1              IIC_SCL=0;
+  26   1              IIC_SDA=0;
+  27   1              delay(1);
+  28   1              IIC_SCL=1;
+  29   1              delay(1);
+  30   1              IIC_SCL=0;
+  31   1      }
+  32          
+  33          void iic_nack()
+  34          {       
+  35   1              IIC_SCL=0;
+  36   1              IIC_SDA=1;
+  37   1              delay(1);
+  38   1              IIC_SCL=1;
+  39   1              delay(1);
+  40   1              IIC_SCL=0;
+  41   1      }
+  42          
+  43          u8 iic_wait_ack()
+  44          {       u8 temp=0;
+  45   1              IIC_SCL=1;
+  46   1              delay(1);
+  47   1              while(IIC_SDA){
+  48   2                      temp++;
+  49   2                      if(temp>100)
+  50   2                      {
+  51   3                              iic_stop();
+  52   3                              return 1;
+  53   3                      }
+  54   2      
+C51 COMPILER V9.01   IIC                                                                   01/14/2024 21:04:40 PAGE 2   
+
+  55   2              }
+  56   1              IIC_SCL=0;
+  57   1              return 0;               
+  58   1      }
+  59          
+  60          
+  61          void iic_write_byte(u8 dat){
+  62   1              u8 i=0;
+  63   1              IIC_SCL=0;
+  64   1              for(i=0;i<8;i++){
+  65   2                      if((dat&0x80)>0){
+  66   3                              IIC_SDA=1;}
+  67   2                      else
+  68   2                              IIC_SDA=0;      
+  69   2                              
+  70   2                      dat<<=1;
+  71   2                      delay(1);
+  72   2                      IIC_SCL=1;
+  73   2                      delay(1);
+  74   2                      IIC_SCL=0;
+  75   2                      delay(1);
+  76   2                      }
+  77   1       }
+  78          
+  79           u8 iic_read_byte(u8 ack){
+  80   1              u8 i=0;
+  81   1              u8 receive=0;
+  82   1              for(i=0;i<8;i++){
+  83   2                      IIC_SCL=0;
+  84   2                      delay(1);
+  85   2                      IIC_SCL=1;
+  86   2                      
+  87   2                      receive<<=1;
+  88   2                      if(IIC_SDA){
+  89   3                              receive++;
+  90   3                              delay(1);}
+  91   2                                      }
+  92   1                      if(!ack) iic_nack();
+  93   1                      else iic_ack();
+  94   1                      
+  95   1              return receive;
+  96   1      }                               
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    257    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

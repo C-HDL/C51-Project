@@ -1,0 +1,116 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\51单片机project\红外遥控实验\template.uvproj
+Project File Date:  01/16/2024
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SMG_DISPLAY?SMG
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=30.0 xdata=0 code=396
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling smg.c...
+compiling ired.c...
+compiling public.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SMG_DISPLAY?SMG
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=30.0 xdata=0 code=396
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling ired.c...
+APP\IRED\IRED.C(10): error C202: 'IRED': undefined identifier
+APP\IRED\IRED.C(18): error C202: 'IRED': undefined identifier
+APP\IRED\IRED.C(21): error C202: 'IRED': undefined identifier
+APP\IRED\IRED.C(29): error C202: 'IRED': undefined identifier
+APP\IRED\IRED.C(32): error C202: 'IRED': undefined identifier
+APP\IRED\IRED.C(44): error C202: 'IRED': undefined identifier
+APP\IRED\IRED.C(52): error C202: 'IRED': undefined identifier
+APP\IRED\IRED.C(71): error C202: 'fired_data': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling ired.c...
+APP\IRED\IRED.C(31): warning C275: expression with possibly no effect
+APP\IRED\IRED.C(71): error C202: 'fired_data': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling ired.c...
+APP\IRED\IRED.C(71): error C202: 'fired_data': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling ired.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SMG_DISPLAY?SMG
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IRED_INIT?IRED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=39.0 xdata=0 code=734
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+USER\MAIN.C(8): error C141: syntax error near 'u8'
+USER\MAIN.C(8): error C202: 'buf': undefined identifier
+USER\MAIN.C(11): error C202: 'buf': undefined identifier
+USER\MAIN.C(12): error C202: 'buf': undefined identifier
+USER\MAIN.C(13): error C202: 'buf': undefined identifier
+USER\MAIN.C(13): error C141: syntax error near '{'
+USER\MAIN.C(13): error C141: syntax error near '}'
+USER\MAIN.C(13): error C141: syntax error near '='
+USER\MAIN.C(14): error C202: 'buf': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+USER\MAIN.C(8): error C141: syntax error near 'u8'
+USER\MAIN.C(8): error C202: 'buf': undefined identifier
+USER\MAIN.C(11): error C202: 'buf': undefined identifier
+USER\MAIN.C(12): error C202: 'buf': undefined identifier
+USER\MAIN.C(13): error C202: 'buf': undefined identifier
+USER\MAIN.C(14): error C202: 'buf': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=42.0 xdata=0 code=772
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling ired.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=42.0 xdata=0 code=772
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=42.0 xdata=0 code=772
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling ired.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=42.0 xdata=0 code=768
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).

@@ -1,0 +1,244 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+E:\51µ¥Æ¬»úproject\LCD1602Òº¾§ÏÔÊ¾\template.uvproj
+Project File Date:  01/17/2024
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+compiling lcd1602.c...
+compiling public.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?PUBLIC
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=9.0 xdata=0 code=58
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling lcd1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?PUBLIC
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?PUBLIC
+Program Size: data=9.0 xdata=0 code=58
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling lcd1602.c...
+APP\LCD1602\LCD1602.C(20): error C202: 'cmd': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling lcd1602.c...
+APP\LCD1602\LCD1602.C(43): warning C206: 'lcd_1602_write_cmd': missing function-prototype
+APP\LCD1602\LCD1602.C(43): error C267: 'lcd_1602_write_cmd': requires ANSI-style prototype
+APP\LCD1602\LCD1602.C(50): error C141: syntax error near '}'
+APP\LCD1602\LCD1602.C(64): error C141: syntax error near '}'
+Target not created
+Build target 'Target 1'
+compiling lcd1602.c...
+APP\LCD1602\LCD1602.C(43): warning C206: 'lcd_1602_write_cmd': missing function-prototype
+APP\LCD1602\LCD1602.C(43): error C267: 'lcd_1602_write_cmd': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling lcd1602.c...
+APP\LCD1602\LCD1602.C(43): warning C206: 'lcd_1602_write_cmd': missing function-prototype
+APP\LCD1602\LCD1602.C(43): error C267: 'lcd_1602_write_cmd': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling lcd1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_INIT?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD1602_SHOW_STRING?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?PUBLIC
+Program Size: data=14.0 xdata=0 code=319
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?PUBLIC
+Program Size: data=14.0 xdata=0 code=375
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?PUBLIC
+Program Size: data=14.0 xdata=0 code=346
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling lcd1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?PUBLIC
+Program Size: data=14.0 xdata=0 code=346
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?PUBLIC
+Program Size: data=14.0 xdata=0 code=375
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+USER\MAIN.C(7): warning C206: 'ds18b20_init': missing function-prototype
+USER\MAIN.C(10): error C141: syntax error near 'u8'
+USER\MAIN.C(10): error C202: 'i': undefined identifier
+USER\MAIN.C(11): error C141: syntax error near 'int'
+USER\MAIN.C(11): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(12): error C141: syntax error near 'u8'
+USER\MAIN.C(12): error C202: 'buf': undefined identifier
+USER\MAIN.C(15): error C202: 'i': undefined identifier
+USER\MAIN.C(16): error C202: 'i': undefined identifier
+USER\MAIN.C(17): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(18): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(20): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(21): error C202: 'buf': undefined identifier
+USER\MAIN.C(24): error C202: 'buf': undefined identifier
+USER\MAIN.C(25): error C202: 'buf': undefined identifier
+USER\MAIN.C(26): error C202: 'buf': undefined identifier
+USER\MAIN.C(27): error C202: 'buf': undefined identifier
+USER\MAIN.C(28): error C202: 'bud': undefined identifier
+USER\MAIN.C(29): error C202: 'buf': undefined identifier
+USER\MAIN.C(30): error C202: 'buf': undefined identifier
+compiling ds18b20.c...
+Target not created
+Build target 'Target 1'
+compiling main.c...
+USER\MAIN.C(11): error C141: syntax error near 'u8'
+USER\MAIN.C(11): error C202: 'i': undefined identifier
+USER\MAIN.C(12): error C141: syntax error near 'int'
+USER\MAIN.C(12): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(13): error C141: syntax error near 'u8'
+USER\MAIN.C(13): error C202: 'buf': undefined identifier
+USER\MAIN.C(16): error C202: 'i': undefined identifier
+USER\MAIN.C(17): error C202: 'i': undefined identifier
+USER\MAIN.C(18): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(19): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(21): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(22): error C202: 'buf': undefined identifier
+USER\MAIN.C(25): error C202: 'buf': undefined identifier
+USER\MAIN.C(26): error C202: 'buf': undefined identifier
+USER\MAIN.C(27): error C202: 'buf': undefined identifier
+USER\MAIN.C(28): error C202: 'buf': undefined identifier
+USER\MAIN.C(29): error C202: 'bud': undefined identifier
+USER\MAIN.C(30): error C202: 'buf': undefined identifier
+USER\MAIN.C(31): error C202: 'buf': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+USER\MAIN.C(9): error C141: syntax error near 'u8'
+USER\MAIN.C(9): error C202: 'i': undefined identifier
+USER\MAIN.C(10): error C141: syntax error near 'int'
+USER\MAIN.C(10): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(11): error C141: syntax error near 'u8'
+USER\MAIN.C(11): error C202: 'buf': undefined identifier
+USER\MAIN.C(14): error C202: 'i': undefined identifier
+USER\MAIN.C(15): error C202: 'i': undefined identifier
+USER\MAIN.C(16): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(17): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(19): error C202: 'temp_value': undefined identifier
+USER\MAIN.C(20): error C202: 'buf': undefined identifier
+USER\MAIN.C(23): error C202: 'buf': undefined identifier
+USER\MAIN.C(24): error C202: 'buf': undefined identifier
+USER\MAIN.C(25): error C202: 'buf': undefined identifier
+USER\MAIN.C(26): error C202: 'buf': undefined identifier
+USER\MAIN.C(27): error C202: 'bud': undefined identifier
+USER\MAIN.C(28): error C202: 'buf': undefined identifier
+USER\MAIN.C(29): error C202: 'buf': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+USER\MAIN.C(28): error C202: 'bud': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=27.0 xdata=0 code=1466
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=28.0 xdata=0 code=1466
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=29.0 xdata=0 code=1467
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=29.0 xdata=0 code=1479
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=29.0 xdata=0 code=1480
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=29.0 xdata=0 code=1479
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=29.0 xdata=0 code=1480
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD1602_CLEAR?LCD1602
+Program Size: data=29.0 xdata=0 code=1480
+creating hex file from ".\Obj\template"...
+".\Obj\template" - 0 Error(s), 1 Warning(s).

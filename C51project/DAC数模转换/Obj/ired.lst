@@ -1,0 +1,102 @@
+C51 COMPILER V9.01   IRED                                                                  01/16/2024 17:47:50 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE IRED
+OBJECT MODULE PLACED IN .\Obj\ired.obj
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE APP\ired\ired.c BROWSE INCDIR(.\Public;.\APP\key;.\APP\iic;.\APP\at24c02
+                    -;.\APP\ds18b20;.\APP\ds1302;.\APP\smg;.\APP\ired) DEBUG OBJECTEXTEND PRINT(.\Obj\ired.lst) OBJECT(.\Obj\ired.obj)
+
+line level    source
+
+   1          #include "ired.h"
+   2          
+   3          u8 gired_data[4];
+   4          
+   5          void ired_init()
+   6          {
+   7   1              IT0=1;
+   8   1              EX0=1;
+   9   1              EA=1;
+  10   1              IRED=1;
+  11   1      }
+  12          
+  13          void ired() interrupt 0
+  14          {
+  15   1              u16 time_cnt=0;
+  16   1              u8 i=0,j=0;
+  17   1              u8 ired_high_time=0;
+  18   1              if(IRED==0)
+  19   1              {
+  20   2                      time_cnt=1000;
+  21   2                      while((!IRED)&&time_cnt)
+  22   2                      {
+  23   3                                delay(1);
+  24   3                                time_cnt--;
+  25   3                      
+  26   3                      if(time_cnt==0)return;
+  27   3                      }
+  28   2              
+  29   2                                      if(IRED==1)
+  30   2                              {
+  31   3                                                      time_cnt=500;
+  32   3                                                      while(IRED&&time_cnt)
+  33   3                                              {
+  34   4                                                      delay(1);
+  35   4                                                      time_cnt--;
+  36   4                                              
+  37   4                                                      if(time_cnt==0)return;
+  38   4                                              }
+  39   3                                                                              for(i=0;i<4;i++)
+  40   3                                                                      {
+  41   4                                                                                              for(j=0;j<8;j++)
+  42   4                                                                                      {
+  43   5                                                                                                              time_cnt=600;
+  44   5                                                                                                              while((!IRED)&&time_cnt)
+  45   5                                                                                      {
+  46   6                                                                                                                      delay(1);
+  47   6                                                                                                                      time_cnt--;
+  48   6                                                                                      
+  49   6                                                                                                              if(time_cnt==0)return;
+  50   6                                                                                      }
+  51   5                                                                                                              time_cnt=20;
+  52   5                                                                                                              while(IRED&&time_cnt)
+  53   5                                                                                      {
+  54   6                                                                                                              delay(10);
+C51 COMPILER V9.01   IRED                                                                  01/16/2024 17:47:50 PAGE 2   
+
+  55   6                                                                                                              ired_high_time++;
+  56   6                                                                                                              time_cnt--;
+  57   6                                                                                      
+  58   6                                                                                                              if(time_cnt==0)return;
+  59   6                                                                                      }
+  60   5                                                                                                              if(ired_high_time>=8)
+  61   5                                                                                                                      gired_data[i]|=0x80;
+  62   5                                                                                                              gired_data[i]>>=1;
+  63   5                                                                                                              ired_high_time=0;
+  64   5                                                                                      }
+  65   4                                                                      }
+  66   3                              }
+  67   2                              if(gired_data[2]!=~gired_data[3])
+  68   2                              {
+  69   3                                      for(i=0;i<4;i++)
+  70   3                                      {
+  71   4                                              gired_data[i]=0;
+  72   4                                              return;
+  73   4                                      }       
+  74   3                              }        
+  75   2              } 
+  76   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    331    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

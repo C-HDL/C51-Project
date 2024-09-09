@@ -1,0 +1,750 @@
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE CONTROLNODE
+OBJECT MODULE PLACED IN controlnode.OBJ
+COMPILER INVOKED BY: E:\keilc51\C51\BIN\C51.EXE controlnode.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //#include <reg52.h>
+   2          #include <AT89X52.H>
+   3          #include <intrins.h>
+   4          
+   5          #define uchar   unsigned char   //ºê¶¨Òå
+   6          #define uint    unsigned int    //ºê¶¨Òå
+   7          
+   8          #define N_can   13      //N_can´ú±íÒ»Ö¡×Ö½ÚÊý
+   9          
+  10          bit left_flag = 0;
+  11          
+  12          uchar TX_buffer_1[13]; //½ÓÊÕµÄ13¸ö×Ö½ÚÊý¾Ý£¨//·¢ËÍµÄÊý¾Ý£©
+  13          uchar RX_buffer_1[13]; //½ÓÊÕµÄ13¸ö×Ö½ÚÊý¾Ý
+  14          
+  15          sbit LED1 = P1^0;
+  16          sbit LED2 = P1^1;
+  17          sbit LED3 = P1^2;
+  18          sbit LED4 = P1^3;
+  19          
+  20          sbit SJA_CS  = P2^0; //SJA1000Æ¬Ñ¡¹Ü½Å£¬µÍµçÆ½ÓÐÐ§
+  21          sbit SJA_RST = P2^7;//SJA1000¸´Î»¹Ü½Å
+  22          
+  23          sbit hight_beam = P2^1;//¿ØÖÆÔ¶¹âµÆ
+  24          sbit dipped_beam = P2^2;//¿ØÖÆ½ü¹âµÆ
+  25          sbit left_light = P2^3;//×ó×ªÏòµÆ
+  26          sbit backup_light = P2^4;//µ¹³µµÆ
+  27          sbit frog_light = P2^5;//ÎíµÆ
+  28          sbit stop_light   = P2^6;//É²³µµÆ
+  29          
+  30          uchar hbeam_s;
+  31          uchar dbeam_s;
+  32          uchar leftl_s;
+  33          uchar backupl_s;
+  34          uchar frogl_s;
+  35          uchar stopl_s;
+  36          
+  37          uchar complete_1;
+  38          uchar prenode;
+  39          
+  40          bit interrupt_flag_1 = 0;
+  41          bit alivestate = 0;//alive±¨ÎÄ×´Ì¬
+  42          bit ringstate = 0;//ring±¨ÎÄ×´Ì¬
+  43          bit prealivestate = 0;//Ç°½Úµãalive×´Ì¬
+  44          bit preringstate = 0; //Ç°½Úµãlive×´Ì¬
+  45          
+  46          
+  47          /*CAN×ÜÏßSJA1000¼Ä´æÆ÷µØÖ·¶¨Òå£¨ÓÃµÄÊÇPeliCANÄ£Ê½£¬À©Õ¹Ö¡EFFÄ£Ê½£©*/
+  48          //xdata ----> ¿ÉÑ°Ö·Æ¬Íâram (64kµØÖ··¶Î§:0000H-FFFFH)
+  49          
+  50          uchar   xdata    MODR     _at_   0xFE00;        // Ä£Ê½¼Ä´æÆ÷
+  51          uchar   xdata    CMR      _at_   0xFE01;        // ÃüÁî¼Ä´æÆ÷
+  52          uchar   xdata    SR           _at_   0xFE02;    // ×´Ì¬¼Ä´æÆ÷
+  53          uchar   xdata    IR               _at_   0xFE03;        // ÖÐ¶Ï¼Ä´æÆ÷
+  54          uchar   xdata    IER      _at_   0xFE04;        // ÖÐ¶ÏÊ¹ÄÜ¼Ä´æÆ÷
+  55          
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 2   
+
+  56          uchar   xdata    BTR0     _at_   0xFE06;        // ×ÜÏß¶¨Ê±¼Ä´æÆ÷0 £»×ÜÏß²¨ÌØÂÊµÄÑ¡Ôñ
+  57          uchar   xdata    BTR1     _at_   0xFE07;        // ×ÜÏß¶¨Ê±¼Ä´æÆ÷1 £»×ÜÏß²¨ÌØÂÊµÄÑ¡Ôñ
+  58          uchar   xdata    OCR      _at_   0xFE08;        // Êä³ö¿ØÖÆ¼Ä´æÆ÷       »ã±à 1a
+  59          
+  60                  // ÑéÊÕ´úÂë¼Ä´æÆ÷£¨16-19£©
+  61          uchar   xdata    ACR0     _at_   0xFE10;//16;
+  62          uchar   xdata    ACR1     _at_   0xFE11;//17;
+  63          uchar   xdata    ACR2     _at_   0xFE12;//18;
+  64          uchar   xdata    ACR3     _at_   0xFE13;//19;
+  65          
+  66                  // ÑéÊÕÆÁ±Î¼Ä´æÆ÷£¨20-23£©
+  67          uchar   xdata    AMR0     _at_   0xFE14;//20;
+  68          uchar   xdata    AMR1     _at_   0xFE15;//21;
+  69          uchar   xdata    AMR2     _at_   0xFE16;//22;
+  70          uchar   xdata    AMR3     _at_   0xFE17;//23;
+  71          
+  72          uchar   xdata    CDR      _at_   0xFE1F;//31;   // Ê±ÖÓ·ÖÆµÆ÷            C8
+  73          uchar   xdata    ALC      _at_   0xFE0B;//11;   // ÖÙ²Ã¶ªÊ§²¶×½¼Ä´æÆ÷
+  74          uchar   xdata    ECC      _at_   0xFE0C;//12;   // ÎóÂë²¶×½¼Ä´æÆ÷
+  75          
+  76                  // ·¢ËÍ»º³åÆ÷µØÖ·(16-28)
+  77          uchar   xdata    TBSR0    _at_   0xFE10;//16;//TXÖ¡ÐÅÏ¢
+  78          uchar   xdata    TBSR1    _at_   0xFE11;//17;//TXÊ¶±ðÂë1 (ID.21-ID.28)
+  79          uchar   xdata    TBSR2    _at_   0xFE12;//18;//TXÊ¶±ðÂë2 (ID.13-ID.20)
+  80          uchar   xdata    TBSR3    _at_   0xFE13;//19;//TXÊ¶±ðÂë3 (ID.5-ID.12)
+  81          uchar   xdata    TBSR4    _at_   0xFE14;//20;//TXÊ¶±ðÂë4£¨¸ß5Î»ÊÇID.0-ID.4£©
+  82          uchar   xdata    TBSR5    _at_   0xFE15;//21;//Êý¾Ý1
+  83          uchar   xdata    TBSR6    _at_   0xFE16;//22;//Êý¾Ý2
+  84          uchar   xdata    TBSR7    _at_   0xFE17;//23;//Êý¾Ý3
+  85          uchar   xdata    TBSR8    _at_   0xFE18;//24;//Êý¾Ý4
+  86          uchar   xdata    TBSR9    _at_   0xFE19;//25;//Êý¾Ý5
+  87          uchar   xdata    TBSR10   _at_   0xFE1A;//26;//Êý¾Ý6
+  88          uchar   xdata    TBSR11   _at_   0xFE1B;//27;//Êý¾Ý7
+  89          uchar   xdata    TBSR12   _at_   0xFE1C;//28;//Êý¾Ý8
+  90          
+  91          // ½ÓÊÕ»º³åÆ÷µØÖ·(16-28)
+  92          uchar   xdata    RBSR0    _at_   0xFE10;//16;
+  93          uchar   xdata    RBSR1    _at_   0xFE11;//17;
+  94          uchar   xdata    RBSR2    _at_   0xFE12;//18;
+  95          uchar   xdata    RBSR3    _at_   0xFE13;//19;
+  96          uchar   xdata    RBSR4    _at_   0xFE14;//20;
+  97          uchar   xdata    RBSR5    _at_   0xFE15;//21;
+  98          uchar   xdata    RBSR6    _at_   0xFE16;//22;
+  99          uchar   xdata    RBSR7    _at_   0xFE17;//23;
+ 100          uchar   xdata    RBSR8    _at_   0xFE18;//24;
+ 101          uchar   xdata    RBSR9    _at_   0xFE19;//25;
+ 102          uchar   xdata    RBSR10   _at_   0xFE1A;//26;
+ 103          uchar   xdata    RBSR11   _at_   0xFE1B;//27;
+ 104          uchar   xdata    RBSR12   _at_   0xFE1C;//28;
+ 105            
+ 106          /*×Óº¯ÊýÉùÃ÷*/
+ 107          void init_mcu(void);  //MCU³õÊ¼»¯
+ 108          void init_sja1000(void);        //SJA1000³õÊ¼»¯
+ 109          void can_txd(uchar node,uchar control_lamp,uchar cmd);  //·¢ËÍ´¦Àíº¯Êý
+ 110          void can_rxd(void);      //½ÓÊÕ´¦Àíº¯Êý
+ 111          void delay(uchar);       //ÑÓ³Ù 
+ 112          
+ 113          ///////////////////////////////////////////////
+ 114          //º¯Êý£ºinit_mcu
+ 115          //ËµÃ÷£ºµ¥Æ¬»úI/O¿Ú³õÊ¼»¯
+ 116          //              Ö÷ÒªÊÇ¸÷ÖÐ¶Ï¼Ä´æÆ÷µÄ³õÊ¼»¯
+ 117          //Èë¿Ú£ºÎÞ
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 3   
+
+ 118          //·µ»Ø£ºÎÞ
+ 119          ///////////////////////////////////////////////
+ 120          void init_mcu(void)
+ 121          {
+ 122   1          P1 = 0xFF;
+ 123   1              LED1 = 0;
+ 124   1              delay(1000);
+ 125   1              SJA_RST = 0;
+ 126   1              delay(10);
+ 127   1          SJA_RST = 1;//CAN×ÜÏß¸´Î»¹Ü½Å
+ 128   1              SJA_CS = 0;             //CAN×ÜÏßÆ¬Ñ¡ÓÐÐ§
+ 129   1          IT0 = 0;    //MCUÍâ²¿ÖÐ¶ÏINT0ÉèÖÃÎª µÍµçÆ½ ´¥·¢
+ 130   1          EX0 = 1;    //¿ªMCUÍâ²¿ÖÐ¶ÏINT0
+ 131   1          EA = 1;     //¿ªMCU×ÜÖÐ¶Ï
+ 132   1              LED1 = 0;
+ 133   1              delay(300);
+ 134   1              LED1 = 1;       
+ 135   1      }
+ 136          
+ 137          ///////////////////////////////////////////////
+ 138          //º¯Êý£ºinit_sja1000
+ 139          //ËµÃ÷£º¶ÀÁ¢CAN¿ØÖÆÆ÷SJA1000µÄ³õÊ¼»¯
+ 140          //Èë¿Ú£ºÎÞ
+ 141          //·µ»Ø£ºÎÞ
+ 142          ///////////////////////////////////////////////
+ 143          void init_sja1000(void)
+ 144          {
+ 145   1      //uchar state;
+ 146   1          uchar ACRR[4];
+ 147   1          uchar AMRR[4];
+ 148   1      /*//Ô­ÓÐ´úÂë
+ 149   1      // ½ÓÊÕ´úÂë¼Ä´æÆ÷                                                            
+ 150   1          ACRR[0] = 0x20;
+ 151   1          ACRR[1] = 0x00;
+ 152   1          ACRR[2] = 0x10;
+ 153   1          ACRR[3] = 0x00;
+ 154   1      // ½ÓÊÕÆÁ±Î¼Ä´æÆ÷
+ 155   1          AMRR[0] = 0x3f;
+ 156   1          AMRR[1] = 0Xff;
+ 157   1          AMRR[2] = 0xf8;
+ 158   1          AMRR[3] = 0x07;
+ 159   1      Ô­ÓÐ´úÂë*/
+ 160   1      
+ 161   1          ACRR[0] = 0xff;
+ 162   1          ACRR[1] = 0x01;//±¾½Úµã±àºÅ01
+ 163   1          ACRR[2] = 0xff;
+ 164   1          ACRR[3] = 0xff;//½ÓÊÕ´úÂë¼Ä´æÆ÷
+ 165   1      
+ 166   1          AMRR[0] = 0xff;
+ 167   1          AMRR[1] = 0x00;
+ 168   1          AMRR[2] = 0xff;
+ 169   1          AMRR[3] = 0xff;//½ÓÊÕÆÁ±Î¼Ä´æÆ÷£¬Ö»½ÓÊÕ·¢Íù±¾½ÚµãµÄ±¨ÎÄ
+ 170   1      
+ 171   1              MODR  = 0x09;   // ÉèÖÃMOD.0=1--½øÈë¸´Î»Ä£Ê½£¬ÒÔ±ãÉèÖÃÏàÓ¦µÄ¼Ä´æÆ÷
+ 172   1      
+ 173   1      
+ 174   1      
+ 175   1      // ¶ÔSJA1000²¿·Ö¼Ä´æÆ÷½øÐÐ³õÊ¼»¯ÉèÖÃ
+ 176   1          CDR  = 0xC8;        // CDRÎªÊ±ÖÓ·ÖÆµÆ÷£¬CDR.3=1--Ê±ÖÓ¹Ø±Õ, CDR.7=0---basic CAN, CDR.7=1---Peli CAN
+ 177   1          BTR0 = 0x01;        // ×ÜÏß¶¨Ê±¼Ä´æÆ÷0 £»×ÜÏß²¨ÌØÂÊÉè¶¨
+ 178   1          BTR1 = 0x1B;        // ×ÜÏß¶¨Ê±¼Ä´æÆ÷1 £»×ÜÏß²¨ÌØÂÊÉè¶¨
+ 179   1          IER  = 0x01;        // IER.0=1--½ÓÊÕÖÐ¶ÏÊ¹ÄÜ£»  IER.1=0--¹Ø±Õ·¢ËÍÖÐ¶ÏÊ¹ÄÜ
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 4   
+
+ 180   1          OCR  = 0x1a;        // ÅäÖÃÊä³ö¿ØÖÆ¼Ä´æÆ÷
+ 181   1          CMR  = 0x04;        // ÊÍ·Å½ÓÊÕ»º³åÆ÷
+ 182   1      
+ 183   1      // ³õÊ¼»¯½ÓÊÕ´úÂë¼Ä´æÆ÷
+ 184   1          ACR0 = ACRR[0];
+ 185   1          ACR1 = ACRR[1];       
+ 186   1          ACR2 = ACRR[2];
+ 187   1          ACR3 = ACRR[3]; 
+ 188   1      
+ 189   1      // ³õÊ¼»¯½ÓÊÕÆÁ±Î¼Ä´æÆ÷
+ 190   1          AMR0 = AMRR[0];
+ 191   1          AMR1 = AMRR[1];
+ 192   1          AMR2 = AMRR[2];
+ 193   1          AMR3 = AMRR[3]; 
+ 194   1      
+ 195   1              MODR   = 0x08;  //MOD.3=0--Ë«ÂË²¨Æ÷Ä£Ê½
+ 196   1              LED2 = 0;
+ 197   1              delay(200);
+ 198   1              LED2 = 1;
+ 199   1              delay(200);
+ 200   1              LED2 = 0;
+ 201   1              delay(200);
+ 202   1              LED2 = 1;
+ 203   1      
+ 204   1      }
+ 205          
+ 206          ///////////////////////////////////////////////
+ 207          //º¯Êý£ºinter1_can_rxd  (Íâ²¿ÖÐ¶ÏINT0)
+ 208          //ËµÃ÷£º½ÓÊÕÊý¾Ýº¯Êý£¬ÔÚÖÐ¶Ï·þÎñ³ÌÐòÖÐµ÷ÓÃ
+ 209          //Èë¿Ú£ºÎÞ
+ 210          //·µ»Ø£ºÎÞ
+ 211          ///////////////////////////////////////////////
+ 212          void inter1_can_rxd( void ) interrupt 0
+ 213          {
+ 214   1              uchar state;
+ 215   1          uchar ID_M;
+ 216   1          uchar ID_L;
+ 217   1              uchar ID_R;
+ 218   1      
+ 219   1          EA = 0;             //¹ØCPUÖÐ¶Ï
+ 220   1          IE0 = 0;    //ÓÉÓÚÊÇÖÐ¶ÏINT0ÊÇµçÆ½´¥·¢·½Ê½£¬ËùÒÔÐèÒªÈí¼þ½«INT0µÄÖÐ¶ÏÇëÇó±êÖ¾IE0ÇåÁã
+ 221   1              ID_R = RBSR1;
+ 222   1          ID_M = RBSR2;
+ 223   1          ID_L = RBSR3;
+ 224   1      
+ 225   1              state = IR;     //IRÎªSJA1000µÄÖÐ¶Ï¼Ä´æÆ÷
+ 226   1      
+ 227   1              if( state & 0x01)
+ 228   1              {
+ 229   2                      RX_buffer_1[0] =  RBSR0;
+ 230   2                      RX_buffer_1[1] =  RBSR1;
+ 231   2                      RX_buffer_1[2] =  RBSR2;
+ 232   2                      RX_buffer_1[3] =  RBSR3;
+ 233   2                      RX_buffer_1[4] =  RBSR4;
+ 234   2                      RX_buffer_1[5] =  RBSR5;
+ 235   2                      RX_buffer_1[6] =  RBSR6;
+ 236   2                      interrupt_flag_1 = 1; //Êµ¼ÊÉÏÒ²¾ÍÕâÐ©¼Ä´æÆ÷ÖÐµÄÊý¾ÝÓÐÓÃ£¬À©Õ¹µÄÆäËû×Ö½Ú¶¼ÊÇÌîÐ´µÄÎÞÒâÒåÊý¾Ý¡£
+ 237   2              }
+ 238   1      
+ 239   1              CMR = 0x04;             //CMR.2=1--½ÓÊÕÍê±Ï£¬ÊÍ·Å½ÓÊÕ»º³åÆ÷
+ 240   1              state = ALC;    //ÊÍ·ÅÖÙ²ÃËæÊ±²¶×½¼Ä´æÆ÷£¨¶Á¸Ã¼Ä´æÆ÷¼´¿É£©
+ 241   1              state = ECC;    //ÊÍ·Å´íÎó´úÂë²¶×½¼Ä´æÆ÷£¨¶Á¸Ã¼Ä´æÆ÷¼´¿É£©
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 5   
+
+ 242   1              IER = 0x01;             // IER.0=1--½ÓÊÕÖÐ¶ÏÊ¹ÄÜ
+ 243   1              EA = 1;                 //ÖØÐÂ¿ªÆôCPUÖÐ¶Ï
+ 244   1              EX0=1;
+ 245   1               
+ 246   1      }
+ 247          
+ 248          ///////////////////////////////////////////////
+ 249          //º¯Êý£ºcan_rxd
+ 250          //ËµÃ÷£º½ÓÊÕ´¦Àíº¯Êý£¬¸ù¾Ý½ÓÊÕ´¦Àí×Óº¯ÊýÐÅÏ¢´¦ÀíÍâ²¿ÏÔÊ¾Ð§¹û£¬µãÁÁÏàÓ¦µÄLEDµÆ¡£
+ 251          //Èë¿Ú£ºÎÞ
+ 252          //·µ»Ø£ºÎÞ
+ 253          ///////////////////////////////////////////////
+ 254          
+ 255          void can_rxd(void)       //½ÓÊÕ´¦Àíº¯Êý
+ 256          {
+ 257   1              uchar control_light,light_state;
+ 258   1              control_light = RX_buffer_1[5]; //¸ù¾ÝµÚÁù×Ö½ÚÊý¾ÝÅÐ¶ÏÊÇºÎÖÖµÆ¡£
+ 259   1              light_state = RX_buffer_1[6];
+ 260   1              if (control_light == 0x01)
+ 261   1              {       
+ 262   2                      if(light_state == 0x01)
+ 263   2                      {
+ 264   3                              hight_beam = 0;//Ô¶¹âµÆ¿ª
+ 265   3                              interrupt_flag_1 = 0;
+ 266   3                              left_flag = 1;
+ 267   3                      }else
+ 268   2                      {
+ 269   3                              hight_beam = 1;//Ô¶¹âµÆ¹Ø
+ 270   3                              interrupt_flag_1 = 0;
+ 271   3                              left_flag = 0;
+ 272   3                      }
+ 273   2              }
+ 274   1              if (control_light == 0x02)
+ 275   1              {
+ 276   2                      if(light_state == 0x01)
+ 277   2                      {
+ 278   3                              dipped_beam = 0;//½ü¹âµÆ¿ª
+ 279   3                              interrupt_flag_1 = 0;
+ 280   3                      }else
+ 281   2                      {
+ 282   3                              dipped_beam = 1;//½ü¹âµÆ¹Ø
+ 283   3                              interrupt_flag_1 = 0;
+ 284   3                      }
+ 285   2              }
+ 286   1      
+ 287   1              
+ 288   1              if (control_light == 0x03)
+ 289   1              {
+ 290   2                      if(light_state == 0x01)
+ 291   2                      {
+ 292   3                              frog_light = 0;//ÎíµÆ¿ª
+ 293   3                              interrupt_flag_1 = 0;
+ 294   3                      }else
+ 295   2                      {
+ 296   3                              frog_light = 1;//ÎíµÆ¹Ø
+ 297   3                              interrupt_flag_1 = 0;
+ 298   3                      }
+ 299   2              }
+ 300   1              if (control_light == 0x04)
+ 301   1              {
+ 302   2                      if(light_state == 0x01)
+ 303   2                      {
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 6   
+
+ 304   3                              stop_light = 0;//É²³µµÆ¿ª
+ 305   3                              interrupt_flag_1 = 0;
+ 306   3                      }else
+ 307   2                      {
+ 308   3                              frog_light = 1;//É²³µµÆ¹Ø
+ 309   3                              interrupt_flag_1 = 0;
+ 310   3                      }
+ 311   2              }
+ 312   1      
+ 313   1      }
+ 314          
+ 315          
+ 316          //void can_rxd(void)
+ 317          //{
+ 318          //      uchar control_light,light_state,node;
+ 319          //      control_light = RX_buffer_1[5]; //0100±íÊ¾alive±¨ÎÄ£»0101±íÊ¾ring±¨ÎÄ£»0102±íÊ¾aliveack£»0103±íÊ¾ringac
+             -k¡£
+ 320          //      light_state = RX_buffer_1[6];
+ 321          //      prenode = RX_buffer_1[1];//»ñÈ¡Êý¾ÝÀ´Ô´µÄÔ´½Úµã±àºÅ
+ 322          //      if (control_light == 0x01)              //ÊÕµ½Ç°½Úµãalive±¨ÎÄ
+ 323          //      {       
+ 324          //              if(light_state == 0x00)
+ 325          //              prealivestate = 1;
+ 326          //       }
+ 327          //      if (control_light == 0x01)              //ÊÕµ½Ç°½Úµãring±¨ÎÄ
+ 328          //      {       
+ 329          //              if(light_state == 0x01)
+ 330          //              preringstate = 1;
+ 331          //       }
+ 332          //      if (control_light == 0x01)              //ÊÕµ½ºó¼Ì½Úµãaliveack±¨ÎÄ
+ 333          //      {       
+ 334          //              if(light_state == 0x02)
+ 335          //              alivestate = 1;
+ 336          //       }
+ 337          //      if (control_light == 0x01)              //ÊÕµ½ºó¼Ì½Úµãringack±¨ÎÄ
+ 338          //      {       
+ 339          //              if(light_state == 0x03)
+ 340          //              ringstate = 1;
+ 341          //       }
+ 342          //      RX_buffer_1[5] = 0x00;//½ÓÊÕÇøÇåÁã£»
+ 343          //      RX_buffer_1[6] = 0x00;
+ 344          //}
+ 345          
+ 346          ///////////////////////////////////////////////
+ 347          //º¯Êý£ºcan_txd
+ 348          //ËµÃ÷£º·¢ËÍ´¦Àíº¯Êý£¬»ñÈ¡Ö´ÐÐÐ§¹ûÐÅÏ¢Ö®ºó·µ»ØÏà¹ØÐÅÏ¢¸øÖÐÐÄ¿ØÖÆ½Úµã
+ 349          //Èë¿Ú£ºcontrol_lamp±íÊ¾ºÎÖÖµÆ£¬cmd±íÊ¾ÊÇ¿ª»¹ÊÇ¹Ø.
+ 350          
+ 351          //·µ»Ø£ºÎÞ
+ 352          ///////////////////////////////////////////////
+ 353          void can_txd(uchar node,uchar control_lamp,uchar cmd)  //·¢ËÍ´¦Àíº¯Êý
+ 354          {
+ 355   1              uchar state;
+ 356   1              uchar TX_buffer_1[ N_can ] ;    //N_can=13£¬TX_bufferÊý×éÎª´ý´«ËÍµÄÊý¾ÝÖ¡
+ 357   1              //³õÊ¼»¯±êÊ¾ÂëÍ·ÐÅÏ¢
+ 358   1          TX_buffer_1[0] = 0x82;      //.7=0--À©Õ¹Ö¡£».6=0--Êý¾ÝÖ¡; .0-.3=100--Êý¾Ý³¤¶ÈÎª8×Ö½Ú
+ 359   1          TX_buffer_1[1] = 0x01;      //±¾Ö¡ÐÅÏ¢µÄID    28~21   ÂË²¨Æ÷ÂË28~13µÄ £»µ±Ç°½ÚµãµØÖ·
+ 360   1          TX_buffer_1[2] = node;        //20~13,Ä¿µÄµØÖ·
+ 361   1          TX_buffer_1[3] = 0x10;         //12~5
+ 362   1          TX_buffer_1[4] = 0x00;         // 4~0
+ 363   1      
+ 364   1              complete_1 = 0;
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 7   
+
+ 365   1              //³õÊ¼»¯·¢ËÍÊý¾Ýµ¥Ôª
+ 366   1              
+ 367   1              TX_buffer_1[5] = control_lamp;  //±¨ÎÄÖÖÀà0x01Îª¹ÜÀíÀà±¨ÎÄ
+ 368   1              TX_buffer_1[6] = cmd;                   //±¨ÎÄÄÚÈÝ00±íÊ¾alive£¬01±íÊ¾ring£¬02±íÊ¾aliveack£¬03±íÊ¾ringack
+ 369   1      
+ 370   1              state = SR;
+ 371   1              if(!(state & 0x10))
+ 372   1              {
+ 373   2                      if(state & 0x08)
+ 374   2                      {
+ 375   3                         if(state & 0x04)
+ 376   3                         {
+ 377   4                                      TBSR0  = TX_buffer_1[0];
+ 378   4                              TBSR1  = TX_buffer_1[1];
+ 379   4                              TBSR2  = TX_buffer_1[2];
+ 380   4                              TBSR3  = TX_buffer_1[3];
+ 381   4                              TBSR4  = TX_buffer_1[4];
+ 382   4                              TBSR5  = TX_buffer_1[5];
+ 383   4                              TBSR6  = TX_buffer_1[6];
+ 384   4                                      complete_1 = 1;
+ 385   4                              CMR = 0x01;     //ÖÃÎ»·¢ËÍÇëÇó
+ 386   4                         }
+ 387   3                      }
+ 388   2              }
+ 389   1      }
+ 390          
+ 391          
+ 392          
+ 393          ///////////////////////////////////////////////
+ 394          //º¯Êý£ºdelay
+ 395          //ËµÃ÷£ºÑÓÊ±×Óº¯Êý
+ 396          //Èë¿Ú£ºuchar time:ÑÓÊ±Ê±¼ätime us
+ 397          //·µ»Ø£ºÎÞ
+ 398          ///////////////////////////////////////////////
+ 399          void delay(unsigned char time)
+ 400          {       
+ 401   1          unsigned char timeee;
+ 402   1          while(time--)
+ 403   1              {
+ 404   2                  timeee=0xFF;
+ 405   2                      while(timeee--);
+ 406   2              }
+ 407   1      }
+ 408          
+ 409          ///////////////////////////////////////////////
+ 410          //º¯Êý£ºmain
+ 411          //ËµÃ÷£ºÖ÷º¯Êý
+ 412          //Èë¿Ú£ºÎÞ
+ 413          //·µ»Ø£ºÎÞ
+ 414          ///////////////////////////////////////////////
+ 415          void main(void)
+ 416          {
+ 417   1              uchar node,light,cmd;
+ 418   1      
+ 419   1              LED1 = 0;
+ 420   1              delay(10000);
+ 421   1      
+ 422   1              init_mcu();
+ 423   1              init_sja1000();
+ 424   1              hbeam_s = 0;
+ 425   1              dbeam_s = 0;
+ 426   1              leftl_s = 0;
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 8   
+
+ 427   1              backupl_s = 0;
+ 428   1              frogl_s = 0;
+ 429   1              stopl_s = 0;
+ 430   1              P2 = 0xFF;
+ 431   1              node = 0x01;
+ 432   1      
+ 433   1      //      while(1)
+ 434   1      //      {       
+ 435   1      //              can_rx();
+ 436   1      //              while(node<0x04)
+ 437   1      //              {
+ 438   1      //                      if(alivestate == 0)
+ 439   1      //                      {
+ 440   1      //                              node = 0x02;//01½ÚµãÏò02½Úµã·¢alive±¨ÎÄ
+ 441   1      //                              light = 0x01;//0100±íÊ¾alive±¨ÎÄ
+ 442   1      //                              cmd = 0x00;
+ 443   1      //                              can_txd(node,light,cmd);
+ 444   1      //                              delay(500);
+ 445   1      //                              can_rx();//Èç¹û³É¹¦½ÓÊÕµ½02½Úµã·¢ËÍµÄaliveack±¨ÎÄ£¬Ôò½«alivestateÖÃ1£¬·ñÔòÒÀÈ»Îª0£»Í¬Ê±ÅÐ¶ÏÇ°Çýringº
+             -Íalive±¨ÎÄÒÔ¼°ºó¼Ì½áµã¸øµÄack±¨ÎÄ
+ 446   1      //                              node = node + 0x01;
+ 447   1      //                      }
+ 448   1      //                      else
+ 449   1      //                      node = 0x04;//´ËÊ±alivestate == 1 ¼´ÉÏÏß£¬½«nodeÖÃ0x04£¬²»ÔÙ·¢ËÍalive±¨ÎÄ
+ 450   1      //                      if (preringstate == 1) //ÊÕµ½Ç°Çý½ÚµãµÄring±¨ÎÄ
+ 451   1      //                      {       
+ 452   1      //                              light = 0x01;//»Ø¸´ringack±¨ÎÄ
+ 453   1      //                              cmd = 0x03;
+ 454   1      //                              can_txd(prenode,light,cmd);
+ 455   1      //                              preringstate = 0;
+ 456   1      //                      }
+ 457   1      //                      if (prealivestate == 1) //ÊÕµ½Ç°Çý½ÚµãµÄalive±¨ÎÄ
+ 458   1      //                      {       
+ 459   1      //                              light = 0x01;//»Ø¸´aliveack±¨ÎÄ
+ 460   1      //                              cmd = 0x02;
+ 461   1      //                              can_txd(prenode,light,cmd);
+ 462   1      //                              prealivestate = 0;
+ 463   1      //                      }
+ 464   1      //                      if (alivestate == 1) //ÊÕµ½ºó¼Ì½ÚµãµÄaliveack±¨ÎÄ
+ 465   1      //                      {       
+ 466   1      //                              node = 0x04;
+ 467   1      //                      } 
+ 468   1      //                      if (ringstate == 1) //ÊÕµ½ºó¼Ì½ÚµãµÄringack±¨ÎÄ
+ 469   1      //                      {       
+ 470   1      //                              light = 0x01;//»Ø¸´ringack±¨ÎÄ
+ 471   1      //                              cmd = 0x01;
+ 472   1      //                              can_txd(prenode,light,cmd);//¼ÌÐø·¢ËÍring±¨ÎÄ
+ 473   1      //                              preringstate = 0;
+ 474   1      //                      }
+ 475   1      //                      delay(200);   
+ 476   1      //              }
+ 477   1      //              node = 0x02;//01½ÚµãÏò02½Úµã·¢ring±¨ÎÄ
+ 478   1      //              light = 0x01;//0101±íÊ¾ring±¨ÎÄ
+ 479   1      //              cmd = 0x01;
+ 480   1      //              can_txd(node,light,cmd); //µÚÒ»´Î·¢ËÍring±¨ÎÄ
+ 481   1      //              delay(200);
+ 482   1      //              can_rx();
+ 483   1      //              if (ringstate == 1) //ÊÕµ½ºó¼Ì½ÚµãµÄringack±¨ÎÄ
+ 484   1      //                      {       
+ 485   1      //                              light = 0x01;//»Ø¸´ringack±¨ÎÄ
+ 486   1      //                              cmd = 0x01;
+ 487   1      //                              can_txd(prenode,light,cmd);//¼ÌÐø·¢ËÍring±¨ÎÄ
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 9   
+
+ 488   1      //                              preringstate = 0;
+ 489   1      //                      }
+ 490   1      //                      delay(200);
+ 491   1      //         can_rx();//Ñ­»·ÅÐ¶Ï·¢ËÍ
+ 492   1      //         node = 0x02;//01½ÚµãÏò02½Úµã·¢ring±¨ÎÄ
+ 493   1      //              light = 0x01;//0101±íÊ¾ring±¨ÎÄ
+ 494   1      //              cmd = 0x01;
+ 495   1      //              can_txd(node,light,cmd); //µÚ¶þ´Î·¢ËÍring±¨ÎÄ
+ 496   1      //              delay(200);
+ 497   1      //              can_rx();
+ 498   1      //         if (ringstate == 0)//Á¬ÐøÁ½´ÎÎ´ÄÜ»ñµÃºó¼Ì½áµã·¢ËÍµÄringack±¨ÎÄ£¬Ö¤Ã÷ºó¼Ì½áµãµôÏß¡£
+ 499   1      //         {
+ 500   1      //                      LED2 = 0;
+ 501   1      //                      delay(5000);//led2ºÅµÆ ³£ÁÁ5Ãë£»
+ 502   1      //                      LED2 = 1;
+ 503   1      //         }
+ 504   1      //      }
+ 505   1      ////////////////
+ 506   1      /*
+ 507   1      sbit backup_light = P2^4;//µ¹³µµÆ
+ 508   1      sbit frog_light = P2^5;//ÎíµÆ
+ 509   1      sbit stop_light   = P2^6;//É²³µµÆ
+ 510   1      */
+ 511   1      ////////////////////////        
+ 512   1              while(1)
+ 513   1              {
+ 514   2                      if(hight_beam == 0)//½Úµã2Ô¶¹âµÆ¿ª
+ 515   2                      {
+ 516   3                              if(hbeam_s == 0)
+ 517   3                              {
+ 518   4                                      LED4 = 0;
+ 519   4                                      node = 0x03;
+ 520   4                                      light = 0x01;
+ 521   4                                      cmd = 0x01;
+ 522   4                                      can_txd(node,light,cmd);
+ 523   4                                      delay(500);
+ 524   4                                      LED4 = 1;
+ 525   4                                      hbeam_s = 1;
+ 526   4                              }
+ 527   3                      }else if(hight_beam == 1)
+ 528   2                      {
+ 529   3                              if(hbeam_s == 1)//½Úµã2Ô¶¹âµÆ¹Ø
+ 530   3                              {
+ 531   4                                      LED4 = 0;
+ 532   4                                      node = 0x03;
+ 533   4                                      light = 0x01;
+ 534   4                                      cmd = 0x00;
+ 535   4                                      can_txd(node,light,cmd);
+ 536   4                                      delay(500);
+ 537   4                                      LED4 = 1;
+ 538   4                                      delay(500);
+ 539   4                                      LED4 = 0;
+ 540   4                                      delay(500);
+ 541   4                                      LED4 = 1;
+ 542   4                                      hbeam_s = 0;
+ 543   4                              }
+ 544   3                      }
+ 545   2                      if(dipped_beam ==0)//½Úµã2½ü¹âµÆ¿ª
+ 546   2                      {
+ 547   3                              if(dbeam_s == 0)
+ 548   3                              {
+ 549   4                                      LED4 = 0;
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 10  
+
+ 550   4                                      node = 0x03;
+ 551   4                                      light = 0x02;
+ 552   4                                      cmd = 0x01;
+ 553   4                                      can_txd(node,light,cmd);
+ 554   4                                      delay(500);
+ 555   4                                      LED4 = 1;
+ 556   4                                      dbeam_s = 1;
+ 557   4                              }
+ 558   3                      }else if(dipped_beam ==1)
+ 559   2                      {       
+ 560   3                              if(dbeam_s == 1)//½Úµã2½ü¹âµÆ¹Ø
+ 561   3                              {
+ 562   4                                      LED4 = 0;
+ 563   4                                      node = 0x03;
+ 564   4                                      light = 0x02;
+ 565   4                                      cmd = 0x00;
+ 566   4                                      can_txd(node,light,cmd);
+ 567   4                                      delay(500);
+ 568   4                                      LED4 = 1;
+ 569   4                                      delay(500);
+ 570   4                                      LED4 = 0;
+ 571   4                                      delay(500);
+ 572   4                                      LED4 = 1;
+ 573   4                                      dbeam_s = 0;
+ 574   4                              }
+ 575   3                      }
+ 576   2                      if(left_light ==0)
+ 577   2                      {
+ 578   3                              if(leftl_s == 0)//½Úµã1×ó×ªÏòµÆ¿ª
+ 579   3                              {
+ 580   4                                      LED3 = 0;
+ 581   4                                      node = 0x02;
+ 582   4                                      light = 0x03;
+ 583   4                                      cmd = 0x01;
+ 584   4                                      can_txd(node,light,cmd);
+ 585   4                                      delay(500);
+ 586   4                                      LED3 = 1;
+ 587   4                                      leftl_s = 1;
+ 588   4                              }
+ 589   3                      }else if(left_light ==1)
+ 590   2                      {       
+ 591   3                              if(leftl_s == 1)//½Úµã1×ó×ªÏòµÆ¹Ø
+ 592   3                              {
+ 593   4                                      LED3 = 0;
+ 594   4                                      node = 0x02;
+ 595   4                                      light = 0x03;
+ 596   4                                      cmd = 0x00;
+ 597   4                                      can_txd(node,light,cmd);
+ 598   4                                      delay(500);
+ 599   4                                      LED3 = 1;
+ 600   4                                      delay(500);
+ 601   4                                      LED3 = 0;
+ 602   4                                      delay(500);
+ 603   4                                      LED3 = 1;
+ 604   4                                      leftl_s = 0;
+ 605   4                              }
+ 606   3                      }
+ 607   2                      if(backup_light ==0)
+ 608   2                      {
+ 609   3                              if(backupl_s == 0)//½Úµã1µ¹³µµÆ¿ª
+ 610   3                              {
+ 611   4                                      LED3 = 0;
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 11  
+
+ 612   4                                      node = 0x02;
+ 613   4                                      light = 0x04;
+ 614   4                                      cmd = 0x01;
+ 615   4                                      can_txd(node,light,cmd);
+ 616   4                                      delay(500);
+ 617   4                                      LED3 = 1;
+ 618   4                                      backupl_s = 1;
+ 619   4                              }
+ 620   3                      }else if(backup_light ==1)
+ 621   2                      {       
+ 622   3                              if(backupl_s == 1)//½Úµã1µ¹³µµÆ¹Ø
+ 623   3                              {
+ 624   4                                      LED3 = 0;
+ 625   4                                      node = 0x02;
+ 626   4                                      light = 0x04;
+ 627   4                                      cmd = 0x00;
+ 628   4                                      can_txd(node,light,cmd);
+ 629   4                                      delay(500);
+ 630   4                                      LED3 = 1;
+ 631   4                                      delay(500);
+ 632   4                                      LED3 = 0;
+ 633   4                                      delay(500);
+ 634   4                                      LED3 = 1;
+ 635   4                                      backupl_s = 0;
+ 636   4                              }
+ 637   3                      }
+ 638   2                      if(frog_light ==0)
+ 639   2                      {
+ 640   3                              if(frogl_s == 0)//½Úµã1ÎíµÆ¿ª
+ 641   3                              {
+ 642   4                                      LED3 = 0;
+ 643   4                                      node = 0x02;
+ 644   4                                      light = 0x05;
+ 645   4                                      cmd = 0x01;
+ 646   4                                      can_txd(node,light,cmd);
+ 647   4                                      delay(500);
+ 648   4                                      LED3 = 1;
+ 649   4                                      frogl_s = 1;
+ 650   4                              }
+ 651   3                      }else if(frog_light ==1)
+ 652   2                      {       
+ 653   3                              if(frogl_s == 1)//½Úµã1ÎíµÆ¹Ø
+ 654   3                              {
+ 655   4                                      LED3 = 0;
+ 656   4                                      node = 0x02;
+ 657   4                                      light = 0x05;
+ 658   4                                      cmd = 0x00;
+ 659   4                                      can_txd(node,light,cmd);
+ 660   4                                      delay(500);
+ 661   4                                      LED3 = 1;
+ 662   4                                      delay(500);
+ 663   4                                      LED3 = 0;
+ 664   4                                      delay(500);
+ 665   4                                      LED3 = 1;
+ 666   4                                      frogl_s = 0;
+ 667   4                              }
+ 668   3                      }
+ 669   2                      if(stop_light ==0)
+ 670   2                      {
+ 671   3                              if(stopl_s == 0)//½Úµã1É²³µµÆ¿ª
+ 672   3                              {
+ 673   4                                      LED3 = 0;
+C51 COMPILER V9.01   CONTROLNODE                                                           09/05/2024 09:34:25 PAGE 12  
+
+ 674   4                                      node = 0x02;
+ 675   4                                      light = 0x06;
+ 676   4                                      cmd = 0x01;
+ 677   4                                      can_txd(node,light,cmd);
+ 678   4                                      delay(500);
+ 679   4                                      LED3 = 1;
+ 680   4                                      stopl_s = 1;
+ 681   4                              }
+ 682   3                      }else if(stop_light ==1)
+ 683   2                      {       
+ 684   3                              if(stopl_s == 1)//½Úµã1É²³µµÆ¹Ø
+ 685   3                              {
+ 686   4                                      LED3 = 0;
+ 687   4                                      node = 0x02;
+ 688   4                                      light = 0x06;
+ 689   4                                      cmd = 0x00;
+ 690   4                                      can_txd(node,light,cmd);
+ 691   4                                      delay(500);
+ 692   4                                      LED3 = 1;
+ 693   4                                      delay(500);
+ 694   4                                      LED3 = 0;
+ 695   4                                      delay(500);
+ 696   4                                      LED3 = 1;
+ 697   4                                      stopl_s = 0;
+ 698   4                              }
+ 699   3                      }
+ 700   2      
+ 701   2              }
+ 702   1                      
+ 703   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    896    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     34      26
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      6    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
